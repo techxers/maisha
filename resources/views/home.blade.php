@@ -7,28 +7,21 @@
     <!-- Hero Slider start -->
     <div class="hero-slider">
        
-        <div class="single-slide-1 bg-image"    data-bgimage="{{asset('assets/images/bg/maid.jpg')}}" style="background-image: url('{{asset('assets/images/other/new.png')}}')">
+        <div class="single-slide-1 bg-image"    data-bgimage="{{asset('assets/images/bg/happy.png')}}" style="background-image: url('{{asset('assets/images/other/new.png')}}')">
             <!-- Hero Content One Start -->
             <div class="hero-content-one container">
                 <div class="row">
                     <div class="col-lg-8"> 
-                        <div class="slider-text-primary text-left slider-mt-200" >
+                        <div class="slider-text-primary text-left slider-mt-200 mt-1" >
                             <h3 style="color: rgb(240, 27, 27);">WELCOME TO MAISHA HOMECARE HUB</h3>
                             <h1 class="text-white" > Africa’s first 100% online domestic training platform</h1>
                             <p class="text-white">Maisha Homecare Hub is a hospitality training facility committed to empowering home support workers to deliver value for their clients (home owners).</p>
-                            {{-- <div class="col-lg-3">
-                                        
-                                <img src="{{asset('assets/images/bg/maid.jpg')}}" alt="" >
-                   
-                        </div> --}}
+                           
                             <div class="slider-button">
                                 <a href="{{route('about')}}" class="default-btn gradient-btn mr--10">Learn More</a>
 
                             </div>
                         </div>
-                 
-                                  
-                                
                     </div>
                 </div>
             </div>
@@ -132,15 +125,15 @@
     
     <br>
   
-    <div class="video-area section-pt section-pb-b bg-image"style="background-color: rgb(240, 27, 27);"   data-bgimage="{{asset('assets/images/bg/bg-010.jpg')}}">
+    <div class="video-area section-pt section-pb-b bg-image"   data-bgimage="{{asset('assets/images/bg/bg-010.jpg')}}">
         <div class="container">
             
             <div class="row">
                 <div class="col-lg-7 ml-auto mr-auto">
                     <!-- Section Title -->
-                    <div class="section-title text-center">
-                        <h2 class="text-white">See Videos How It Works</h2>
-                        <p class="text-white">We strive towards to change the very standards of practice in the cleaning and housekeeping industry with our revolutionary quality of service.</p>
+                    <div class="section-title text-center" > 
+                        <h2>See Videos How It Works</h2>
+                        <p class="text-black">We strive towards to change the very standards of practice in the cleaning and housekeeping industry with our revolutionary quality of service.</p>
                     </div><!--// Section Title -->
                 </div>
             </div>

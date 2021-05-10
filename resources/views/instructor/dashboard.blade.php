@@ -23,31 +23,8 @@
                         <div class="card">
                             <div class="card-header d-flex align-items-center">
                                 <div class="flex">
-                                    <h4 class="card-title">New Users</h4>
-                                    <p class="card-subtitle">Last 7 Days</p>
-                                </div>
-                                <a href="instructor-earnings.html"
-                                   class="btn btn-sm btn-primary"><i class="material-icons">trending_up</i></a>
-                            </div>
-                            <div class="card-body">
-                                <div id="legend"
-                                     class="chart-legend mt-0 mb-24pt justify-content-start"></div>
-                                <div class="chart"
-                                     style="height: 200px;">
-                                    <canvas id="earningsChart"
-                                            class="chart-canvas js-update-chart-bar"
-                                            data-chart-legend="#legend"
-                                            data-chart-line-background-color="primary"
-                                            data-chart-prefix="$"
-                                            data-chart-suffix="k"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header d-flex align-items-center">
-                                <div class="flex">
                                     <h4 class="card-title">Courses</h4>
-                                    <p class="card-subtitle">Latest Added Courses</p>
+                                    <p class="card-subtitle">Your 5 Latest Added Courses</p>
                                 </div>
                             </div>
                             <div data-toggle="lists"
@@ -68,7 +45,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list">
-                                        @foreach ($courses->take(5) as $item)
+                                        @foreach ($ins_courses->take(5) as $item)
                                             <tr>
                                                 <td>
                                                     <div class="media align-items-center">
@@ -98,27 +75,34 @@
                         <div class="card">
                             <div class="card-header d-flex align-items-center">
                                 <div class="flex">
-                                    <h4 class="card-title">Most Viewed Courses</h4>
+                                    <h4 class="card-title"> Your Courses With Most Enrollements</h4>
                                 </div>
                                 <a class="btn btn-sm btn-primary"
-                                   href="instructor-earnings.html">No of Views</a>
+                                   href="instructor-earnings.html">No of Enrollements</a>
                             </div>
                             <ul class="list-group list-group-fit mb-0">
-                                @foreach ($courses->take(5) as $item)
-                                    <li class="list-group-item">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <a href="{{route('editcourse',$item->id)}}"
-                                                class="text-body"><strong>{{$item->title}}</strong></a>
-                                            </div>
-                                            <div class="media-right">
-                                                <div class="text-center">
-                                                    <span class="badge badge-pill badge-primary">15</span>
-                                                </div>
+                                @forelse ($ins_courses->take(5) as $ins)
+                                @foreach ($enrolled as $item)
+                                @if($ins->id==$item->course_id)
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <a href="{{route('editcourse',$ins->id)}}"
+                                            class="text-body"><strong>{{$ins->title}}</strong></a>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="text-center">
+                                                <span class="badge badge-pill badge-primary">{{$enrolled->where('course_id',$item->course_id)->count()}}</span>
                                             </div>
                                         </div>
-                                    </li>
+                                    </div>
+                                </li>
+                                @endif
                                 @endforeach
+                                 
+                                @empty
+                                <p class="m-1">You have not added any courses recently</p>
+                                @endforelse
                             </ul>
                         </div>
                     </div>

@@ -51,7 +51,9 @@
 html, body {
   height: 100%;
 }
-
+.zmdi-long-arrow-up{
+  background-color: rgb(240, 27, 27);
+}
 body {
   background-color: #fff;
   font-family: "Poppins", sans-serif;
@@ -64,7 +66,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #333333;
+  color: rgb(240, 27, 27);
   font-weight: 400;
   margin-top: 0;
   font-family: "Poppins", sans-serif;
@@ -239,7 +241,9 @@ ul {
 .uppercase {
   text-transform: uppercase;
 }
-
+.col h2{
+  color: rgb(240, 27, 27);;
+}
 .no-gutters > .col, .no-gutters > [class*="col-"] {
   padding-right: 0;
   padding-left: 0;
@@ -1228,8 +1232,9 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 
 .gradient-btn {
-  background-image: linear-gradient(to top, #12b4f2 0%, #0259ae 51%, #12b4f2 100%);
+  /* background-image: linear-gradient(to top, #12b4f2 0%, #0259ae 51%, #12b4f2 100%); */
   background-size: auto  200%;
+  background-color: red;
 }
 .gradient-btn:hover {
   background-position: center bottom;
@@ -1274,7 +1279,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 
 .btn {
-  background: #0259ae;
+  background-color: rgb(240, 27, 27);
   color: #ffffff;
   border-radius: 0;
   font-weight: 600;
@@ -1807,7 +1812,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .mobile-menu .mean-bar .meanmenu-reveal span.menu-bar {
   height: 2px;
   width: 26px;
-  background-color: #ffffff;
+  background-color: rgb(240, 27, 27);
   display: block;
   margin: 8px 0;
 }
@@ -1817,7 +1822,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
+  background-color: rgb(240, 27, 27);
 }
 .mobile-menu .mean-bar .meanmenu-reveal span.menu-bar::before {
   top: -8px;
@@ -1849,7 +1854,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   transform: rotate(-45deg);
 }
 .mobile-menu .mean-bar .mean-nav {
-  background-color: #12AFEF;
+  background-color: rgb(240, 27, 27);
 }
 .mobile-menu .mean-bar .mean-nav > ul {
   margin-bottom: 30px;
@@ -1913,7 +1918,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 .mobile-menu .mean-bar .mean-nav > ul li .sub-menu, .mobile-menu .mean-bar .mean-nav > ul li .mega-menu, .mobile-menu .mean-bar .mean-nav > ul li ul {
   position: static;
-  background-color: #0a99d3;
+  background-color: rgb(240, 27, 27);
   margin: 0;
   padding: 0 !important;
   width: 100%;
@@ -2006,11 +2011,18 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 
 .header-area {
-  padding: 12px 0px;
+  padding: 5px 0px;
+  position: fixed;
 }
-
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .logo a {
+    padding: 6px 0;
+    /* margin:-35px -35px; */
+  }
+}
 .logo a {
-  padding: 20px 0;
+  padding: 6px 0;
+  margin-left: 5px;
 }
 
 .main-menu {
@@ -2026,7 +2038,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .main-menu ul > li > a {
   display: block;
   padding: 20px 0;
-  color: #ffffff;
+  color: rgb(240, 27, 27);;
 }
 .main-menu ul > li .sub-menu {
   width: 180px;
@@ -2079,8 +2091,15 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 .login-button .login-btn {
   padding: 4px 30px;
-  background: #ffffff;
+  background: rgb(240, 27, 27);
   font-size: 14px;
+  color:white;
+}
+.login-button .login-btn:hover {
+  padding: 4px 30px;
+  background: white;
+  font-size: 14px;
+  color:rgb(240, 27, 27);
 }
 .login-button .login-btn.button-c-two {
   background: #ffc61b;
@@ -2105,7 +2124,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   }
   .login-button .login-btn {
     padding: 2px 10px;
-    margin-top: 45px;
+    margin-top: 25px;
   }
 }
 
@@ -2484,10 +2503,11 @@ nav.sidebar-menu ul li a:hover {
     05. Hero Slider Css
 -----------------------------*/
 .single-slide-1 {
-  height: 1200px;
+  height: 500px;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
   .single-slide-1 {
+   padding-top:200px;
     height: 1050px;
   }
 }
@@ -3267,8 +3287,8 @@ nav.sidebar-menu ul li a:hover {
 }
 
 .footer-top-one {
-  padding-bottom: 80px;
-  padding-top: 130px;
+  padding-bottom: 20px;
+  padding-top: 10px;
 }
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
   .footer-top-one {
@@ -3779,7 +3799,8 @@ nav.sidebar-menu ul li a:hover {
   text-transform: capitalize;
   -webkit-transition: all 0.4s ease-out 0s;
   transition: all 0.4s ease-out 0s;
-  background-image: linear-gradient(to top, #12b4f2 0%, #0259ae 51%, #12b4f2 100%);
+  background-color: rgb(240, 27, 27);
+  /* background-image: linear-gradient(to top, #12b4f2 0%, #0259ae 51%, #12b4f2 100%); */
   background-size: auto  200%;
 }
 .contact-submit-btn .submit-btn:hover {
@@ -3881,7 +3902,8 @@ nav.sidebar-menu ul li a:hover {
 .contact-info-icon i {
   width: 50px;
   height: 50px;
-  background-image: linear-gradient(to top, #0259ae 30%, #12b4f2 100%);
+  background-color: rgb(240, 27, 27);
+  /* background-image: linear-gradient(to top, #0259ae 30%, #12b4f2 100%); */
   text-align: center;
   line-height: 50px;
   border-radius: 50%;

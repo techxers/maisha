@@ -17,10 +17,18 @@ class InstructorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users=User::all()->where('role_id',2);
-        return view('users.index',compact('users'));
+        $search=$request->value;
+        if($search==null)
+        {
+            $users=User::where('role_id',2)->paginate(6);
+        }
+        else{
+            $users=User::where('role_id',2)->where('name', 'LIKE', "%{$search}%")->paginate(6);
+        }
+        
+        return view('users.index',compact('users','search'));
     }
 
     /**

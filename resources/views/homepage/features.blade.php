@@ -9,7 +9,7 @@
         <div class="in-breadcrumb">
             <div class="row">
                 <div class="col text-center">
-                    <h2>Features</h2>
+                    <h2 style="color: rgb(240, 27, 27);">Features</h2>
                     <!-- breadcrumb-list start -->
                     <ul class="breadcrumb-list">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -107,12 +107,6 @@
             </div>
         </div>
     </div>
-    <!--// Best Feature Area -->
-    
-    
-    <!-- Get Started Area -->
-  
-    <!--// Get Started Area -->
     </div>
 </main>
 @endsection

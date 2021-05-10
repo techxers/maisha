@@ -21,7 +21,21 @@
                         </ol>
 
                         <h1 class="h2">User Accounts</h1>
-
+                        <div class="card card-body border-left-3 border-left-primary navbar-shadow mb-4">
+                            <form action="{{route('instructors')}}" method="GET" id="search">
+                                <div class="d-flex flex-wrap2 align-items-center mb-headings">
+                                   
+                                    <div class="flex search-form ml-3 search-form--light">
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Search users"
+                                               id="searchSample02" name="value" value="{{$search}}">
+                                               <button type="submit" style="background-color: transparent;border:none;"><i class="material-icons">search</i></button>
+                                      
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="row card-group-row mb-40pt">
                             @foreach ($users as $user)
                             <div class="col-lg-4 col-sm-4 card-group-row__col">
@@ -51,7 +65,7 @@
 
                             </div>
                             @endforeach
-                          
+                          {{$users->links()}}
                         </div>
                     </div>
                 </div>

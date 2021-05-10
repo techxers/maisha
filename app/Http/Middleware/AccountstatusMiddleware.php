@@ -18,10 +18,14 @@ class AccountstatusMiddleware
     public function handle(Request $request, Closure $next)
     {
        
+        if(Auth::user()->role_id==2) 
+        {
             if(Auth::user()->status!='active')
             {
                 return redirect()->route('inactive');
             }
+        }  
+        
             return $next($request);
         
     }

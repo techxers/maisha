@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VideoController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\MyCoursesController;
+use App\Http\Controllers\SubcategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,15 +41,16 @@ Route::get('/pricing', function () {
 Route::get('/contact', function () {
     return view('homepage.contact');
 });
-Route::get('/instructor/register', function () {
-    return view('auth.instructor_register');
-})->name('instructor.register');
+Route::get('/instructor', function () {
+    return view('auth.instructor');
+})->name('instructor');
 //Trainee Routes
 Route::get('/courses', [DashboardController::class,'courses'])->name('courses');
 Route::get('/viewcourse/{id}', [DashboardController::class,'viewcourse'])->name('viewcourse');
-Route::get('/mycourses', function () {
-    return view('dashboard.mycourses');
-})->name('mycourses');
+
+Route::get('/mycourses',[MyCoursesController::class,'index'])->name('mycourses');
+Route::get('/enroll/{id}',[MyCoursesController::class,'enroll'])->name('enroll');
+
 Route::get('/quizresults', function () {
     return view('dashboard.quizresults');
 })->name('quizresults');
@@ -68,6 +72,17 @@ Route::middleware('status')->group(function(){
     Route::post('/update/categories/{id}', [CategoryController::class,'update'])->name('updatecategory');
     Route::get('/delete/category/{id}', [CategoryController::class,'destroy'])->name('deletecategory');
 
+    Route::get('/subcategories', [SubcategoryController::class,'index'])->name('subcategories');
+    Route::get('/add/subcategories', [SubcategoryController::class,'create'])->name('createsubcategory');
+    Route::post('/add/subcategory', [SubcategoryController::class,'store'])->name('addsubcategory');
+    Route::get('/edit/subcategories/{id}', [SubcategoryController::class,'edit'])->name('editsubcategory');
+    Route::post('/update/subcategories/{id}', [SubcategoryController::class,'update'])->name('updatesubcategory');
+    Route::get('/delete/subcategory/{id}', [SubcategoryController::class,'destroy'])->name('deletesubcategory');
+
+    Route::get('/create/video/{id}',[VideoController::class,'create'])->name('video.create');
+    Route::post('/video/store/{id}',[VideoController::class,'store'])->name('video.store');
+    Route::get('/video/edit/{id}',[VideoController::class,'edit'])->name('video.edit');
+    Route::post('/video/update/{id}',[VideoController::class,'update'])->name('video.update');
 });
 Route::get('/inactive', [DashboardController::class,'inactive'])->name('inactive');
 //Admin Routes

@@ -21,6 +21,21 @@
                 <div class="d-flex flex-column flex-sm-row flex-wrap mb-headings align-items-start align-items-sm-center">
                     <div class="flex mb-2 mb-sm-0">
                         <h1 class="h2">Manage Courses</h1>
+                        <div class="card card-body border-left-3 border-left-primary navbar-shadow mb-4">
+                            <form action="{{route('coursemanager')}}" method="GET" id="search">
+                                <div class="d-flex flex-wrap2 align-items-center mb-headings">
+                                   
+                                    <div class="flex search-form ml-3 search-form--light">
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Search courses"
+                                               id="searchSample02" name="value" value="{{$search}}">
+                                               <button type="submit" style="background-color: transparent;border:none;"><i class="material-icons">search</i></button>
+                                      
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     
                     
@@ -90,12 +105,14 @@
                             </div>
                             @endcan
                         </div>
+                      
                     </div>
+                   
                     @empty
                     <p>No courses added</p>
                     @endforelse
                 </div>
-
+                {{$courses->links()}}  
                 <!-- Pagination -->
                
             </div>

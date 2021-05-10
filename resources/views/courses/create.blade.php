@@ -56,6 +56,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="course"
+                                        class="col-md-3 col-form-label form-label">Subcategory</label>
+                                    <div class="col-md-4">
+                                        <select id="course" name="subcategory" class="custom-control custom-select form-control">
+                                            @foreach ($subcategories as $item)
+                                                <option value="{{$item->name}}">{{$item->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="avatar"
                                         class="col-sm-3 col-form-label form-label">Video Thumbnail</label>
                                     <div class="col-sm-9">

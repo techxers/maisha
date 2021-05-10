@@ -34,13 +34,13 @@
 <body>
     <div class="main-wrapper" >
    
-        <header class="header-area inner-header" style="background-color: rgb(240, 27, 27);position:fixed;">
+        <header class="header-area inner-header" style="background-color: white;">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-7">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="/"><img src="{{asset('assets/images/logo/maisha2.png')}}" style="width:50%;margin-left:-35px;border-radius:70%;" ></a> 
+                            <a href="/"><img src="{{asset('assets/images/logo/maisha1.png')}}" style="width:50%;margin-left:-35px;border-radius:70%;" ></a> 
                         </div>
                         <!-- Logo -->
                     </div>
@@ -55,10 +55,13 @@
                                     </li>
                                     <li><a href="/contact">Contact</a></li>
                                     @guest
-                                        <li><a href="#">Register</a>
+                                        <li><a href="">Register</a>
                                             <ul class="sub-menu">
+                                                {{-- <li><a href="{{route('instructor.register')}}">Instructor</a></li> --}}
                                                 <li><a href="{{route('register')}}">Trainee</a></li>
-                                                <li><a href="{{route('instructor.register')}}">Instructor</a></li>
+                                                <li><a href="{{route('instructor')}}">Instructor</a></li>
+                                    
+                                                
                                             </ul>
                                         </li>
                                     @endguest
@@ -106,7 +109,7 @@
                     <div class="col-custom-4 mt--50">
                         <!-- footer-widget -->
                         <div class="footer-widget">
-                            <h4 class="footer-widget-title">About Streamo</h4>
+                            <h4 class="footer-widget-title">About Maisha</h4>
 
                             <div class="footer-contet">
                                 <p>Maisha Homecare Hub is a hospitality training facility committed to empowering home support workers to deliver value for their clients (home owners).</p>

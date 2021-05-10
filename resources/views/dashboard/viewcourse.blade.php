@@ -1,42 +1,144 @@
 @extends('layouts.base')
 
 @section('title')
-    <title> View Course</title>
+    <title>View Course</title>
 @endsection
 
 @section('content')
-<div class="mdk-header-layout__content">
-    <div data-push
-         data-responsive-width="992px"
-         class="mdk-drawer-layout js-mdk-drawer-layout">
-        <div class="mdk-drawer-layout__content page ">
 
-            <div class="container-fluid page__container">
-                <div class="row">
-                    <div class="col-md-8">
+ 
+        <div class="mdk-header-layout__content">
+
+            <div data-push
+                 data-responsive-width="992px"
+                 class="mdk-drawer-layout js-mdk-drawer-layout">
+                <div class="mdk-drawer-layout__content page ">
+
+                    <div class="container-fluid page__container">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="student-dashboard.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="student-browse-courses.html">Courses</a></li>
+                            <li class="breadcrumb-item active">{{$course->title}}</li>
+                        </ol>
                         <h1 class="h2">{{$course->title}}</h1>
-                        <div class="card">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <video id="movie" class="embed-responsive-item"
-                                        src="{{asset('uploads/'.$course->path)}}"
-                                        allowfullscreen="" controls controlsList="nodownload"></video>
-                            </div>
-                            {{-- <script>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <video class="embed-responsive-item"
+                                      
+                                                src="{{asset('uploads/'.$video->path)}}"
+                                                allowfullscreen="" controls controlsList="nodownload"></video>
+                                    </div>
+                                    <div class="card-body">
+                                        {{$video->title}}
+                                    </div>
+                                </div>
 
-                                document.getElementById("movie").addEventListener("ended", function(){alert("all done")}, true);
+                                <!-- Lessons -->
+                                <ul class="card list-group list-group-fit">
+                                    @forelse ($videos as $video)
+                                    @if($video->id==$play_id)
+                                        <li class="list-group-item active">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <div class="text-muted"></div>
+                                                </div>
+                                                <div class="media-body">
+                                                    <form action="" method="get">
+                                                        <input type="hidden" name="play_id" value="{{$video->id}}">
+                                                        <button type="submit" style="background-color: transparent;border:none;" ><a>{{$video->title}}</a></button>
+                                                    </form>
+                                                    
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @else
+                                    <li class="list-group-item">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <div class="text-muted"></div>
+                                            </div>
+                                            <div class="media-body">
+                                                @if($enrolled==True)
+                                                <form action="" method="get">
+                                                    <input type="hidden" name="play_id" value="{{$video->id}}">
+                                                    <button type="submit" style="background-color: transparent;border:none;" ><a>{{$video->title}}</a></button>
+                                                </form>
+                                                @else
+                                                  <p class="text-muted">{{$video->title}}</p>
+                                                @endif
+                                                
+                                            </div>
+                                        </div>
+                                    </li>
+                                    @endforelse
+                                    @empty
+                                        No videos added
+                                    @endforelse
+                                   
+                                    
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                @if (session('success'))
+                                    <div class="alert alert-success">
+                                        {{session('success')}}
+                                    </div>
+                                @endif
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <p>
+                                            @can('admin')
+                                            @if ($course->status=='inactive')
+                                                <div class="media-right">
+                                                    <a href="{{route('approve',$course->id)}}" class="btn btn-success" >Approve</a>
+                                                </div>
+                                            @else
+                                                <div class="media-right">
+                                                    <a href="{{route('disapprove',$course->id)}}" class="btn btn-danger" >Disapprove</a>
+                                                </div>
+                                            @endif
+                                            @endcan
+                                            @if ($enrolled==False)
+                                            <a href="{{route('enroll',$course->id)}}" class="btn btn-success" >Enroll Course</a> <br> <br>
+                                            Enroll course to view all videos for free
+                                            @else
+                                            
+                                            You have enrolled this course
+                                            @endif
+                                            
+                                        </p>
+                                       
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="media align-items-center">
+                                            <div class="media-left">
                     
-                                </script> --}}
-                            <div class="card-body">
-                                <h2>{{$course->category}}</h2>
-                                {{$course->description}}
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="card-title"><a href="{{route('show.instructors',$instructor->id)}}">{{$instructor->name}}</a></h4>
+                                                <p class="card-subtitle">Instructor</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4>About Course</h4>
+                                        <p>{{$course->description}}</p>
+                                        
+                                    </div>
+                                </div>
+                               
+                        
                             </div>
                         </div>
                     </div>
-              
-                </div>
-            </div>
 
-        </div>
-   
+                </div>
+
+                
+                        
 
 @endsection

@@ -21,10 +21,25 @@
                 <div class="d-flex flex-column flex-sm-row flex-wrap mb-headings align-items-start align-items-sm-center">
                     <div class="flex mb-2 mb-sm-0">
                         <h1 class="h2">Manage Courses</h1>
+                        <div class="card card-body border-left-3 border-left-primary navbar-shadow mb-4">
+                            <form action="{{route('instructors')}}" method="GET" id="search">
+                                <div class="d-flex flex-wrap2 align-items-center mb-headings">
+                                   
+                                    <div class="flex search-form ml-3 search-form--light">
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Search users"
+                                               id="searchSample02" name="value" value="{{$search}}">
+                                               <button type="submit" style="background-color: transparent;border:none;"><i class="material-icons">search</i></button>
+                                      
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                  
                     <a href="{{route('createcourse')}}"
-                        class="btn btn-success">Add course
+                        class="btn btn-success ml-5">Add course
                     </a>
                     
                 </div>     

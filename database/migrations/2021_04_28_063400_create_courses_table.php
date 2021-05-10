@@ -18,6 +18,7 @@ class CreateCoursesTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('category');
+            $table->string('subcategory');
             $table->string('status')->default('inactive');
             $table->integer('user_id');
             $table->string('thumbnail');

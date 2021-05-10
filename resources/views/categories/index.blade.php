@@ -48,6 +48,7 @@
                         </li>
                         @endforeach
                     </ul>
+                    {{$categories->links()}}
                 </div>
             </div>
         </div>

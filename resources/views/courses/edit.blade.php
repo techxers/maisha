@@ -44,38 +44,95 @@
                                 </div>
                             @endif
                             <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Basic Information</h4>
+                                </div>
+                                @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{session('success')}}
+                                </div>
+                                @endif
+                                <div class="card-body">
+
+                                    <div class="form-group">
+                                        <label class="form-label"
+                                            for="title">Title</label>
+                                        <input type="text" id="title" name="title" class="form-control" placeholder="Write a title" value="{{$course->title}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label"
+                                            for="title">Category</label>
+                                        <select name="category" id="" class="custom-control custom-select form-control">
+                                            @foreach ($categories as $item)
+                                                    <option {{$course->category==$item->name ? 'selected':''}} value="{{$item->name}} ">{{$item->name}}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label"
+                                            for="title">Subcategory</label>
+                                        <select name="subcategory" id="" class="custom-control custom-select form-control">
+                                            @foreach ($subcategories as $item)
+                                                    <option {{$course->subcategory==$item->name ? 'selected':''}} value="{{$item->name}} ">{{$item->name}}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <label class="form-label">Description</label> <br>
+                                        <textarea name="description" id="" cols="30" rows="10" class="form-control">{{$course->description}}</textarea>
+                                    </div>
+
+                                </div>
+                        </div>
+                        <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Basic Information</h4>
+                                <h4 class="card-title">Videos</h4>
                             </div>
                             <div class="card-body">
-
-                                <div class="form-group">
-                                    <label class="form-label"
-                                           for="title">Title</label>
-                                    <input type="text" id="title" name="title" class="form-control" placeholder="Write a title" value="{{$course->title}}">
+                                <p><a href="{{route('video.create',$course->id)}}"
+                                       class="btn btn-primary">Add Video <i class="material-icons">add</i></a></p>
+                                <div class="nestable"
+                                     id="nestable-handles-primary">
+                                    <ul class="nestable-list">
+                                        @forelse ($videos as $video)
+                                        <li class="nestable-item nestable-item-handle"data-id="2">
+                            
+                                             <div class="nestable-content">
+                                                <div class="media align-items-center">
+                                                    <div class="media-left">
+                                                        <img src="{{asset('Images/'.$video->thumbnail)}}"
+                                                            alt=""
+                                                            width="100"
+                                                            class="rounded">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="card-title h6 mb-0">
+                                                            <a href="{{route('video.edit',$video->id)}}">{{$video->title}}</a>
+                                                        </h5>
+                        
+                                                    </div>
+                                                    <div class="media-right">
+                                                        <a href="{{route('video.edit',$video->id)}}"
+                                                        class="btn btn-white btn-sm"><i class="material-icons">edit</i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        @empty
+                                            No video added
+                                        @endforelse
+                                    </ul>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label"
-                                           for="title">Category</label>
-                                    <select name="category" id="" class="custom-control custom-select form-control">
-                                        @foreach ($categories as $item)
-                                                <option {{$course->category==$item->name ? 'selected':''}} value="{{$item->name}} ">{{$item->name}}</option>
-                                            @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <label class="form-label">Description</label> <br>
-                                    <textarea name="description" id="" cols="30" rows="10" class="form-control">{{$course->description}}</textarea>
-                                </div>
-
                             </div>
                         </div>
+                        
                     </div>
+                    
                     <div class="col-md-4">
                         <div class="card">
                             <div class="embed-responsive embed-responsive-16by9">
                                 <video class="embed-responsive-item"
-                                        src="{{asset('uploads/'.$course->path)}}"
+                                        src="{{asset('uploads/'.$video->path)}}"
                                         allowfullscreen="" controls controlsList="nodownload"></video>
                             </div>
                             <div class="card-body">

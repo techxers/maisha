@@ -10,7 +10,7 @@
             <div class="in-breadcrumb">
                 <div class="row">
                     <div class="col text-center">
-                        <h2 style="color:black;"> About Us</h2>
+                        <h2 style="color: rgb(240, 27, 27);"> About Us</h2>
                         <!-- breadcrumb-list start -->
                         <ul class="breadcrumb-list" style="">
                             <li class="breadcrumb-item"><a href="/" style="color: black">Home</a></li>

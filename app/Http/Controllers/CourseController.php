@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Course;
+use App\Models\User;
 use App\Models\Video;
+use App\Models\Course;
+use App\Models\Category;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -32,7 +36,8 @@ class CourseController extends Controller
     public function create()
     {
         $categories=Category::all();
-        return view('courses.create',compact('categories'));
+        $subcategories=Subcategory::all();
+        return view('courses.create',compact('categories','subcategories'));
     }
 
     /**
@@ -47,6 +52,7 @@ class CourseController extends Controller
             'title'=>'required',
             'description'=>'required',
             'category'=>'required',
+            'subcategory'=>'required',
             'file'=>'required|mimes:mpeg,ogg,mp4,webm,3gp,mov,flv,avi,wmv,ts',
             'thumbnail'=>'mimes:jpeg,jpg,png,gif|required'
         ]);
@@ -55,19 +61,28 @@ class CourseController extends Controller
         $filename = time().'_'.$file->getClientOriginalName();
         $file->move(public_path("uploads"), $filename);
 
+        $request->validate([
+            'thumbnail'=>'mimes:jpeg,jpg,png,gif'
+        ]);
         $thumbnail=$request->thumbnail;
+        $img = Image::make($thumbnail);
+        $img->resize(286, 200);
         $thumbname=time()."_.".$thumbnail->getClientOriginalExtension();
-        $thumbnail->move(public_path("Images"), $thumbname);
+        $img->save(public_path("Images/".$thumbname));
+        
 
         $course->title=$request->title;
         $course->user_id=Auth::user()->id;
         $course->description=$request->description;
         $course->category=$request->category;
+        $course->subcategory=$request->subcategory;
         $course->thumbnail=$thumbname;
         $course->save();
 
         $video=new Video;
         $video->course_id=$course->id;
+        $video->title='Introduction Video';
+        $video->thumbnail=$thumbname;
         $video->path=$filename;
         $video->save();
 
@@ -93,16 +108,31 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,Request $request)
     {
         $course=Course::findOrFail($id);
-        $categories=Category::all();
 
-        if(Auth::user()->id==$course->user_id){
-            return view("courses.edit",compact('course','categories'));
+        $play_id=$request->play_id;
+        
+        if($play_id==null)
+        {
+            $video=Video::where('course_id',$course->id)->first();
         }
         else{
-            return view("courses.manage",compact('course','categories'));
+            $video=Video::where('id',$play_id)->first();
+        }
+       
+        $categories=Category::all();
+        $subcategories=Subcategory::all();
+       
+        $videos=Video::all()->where('course_id',$id);
+        $instructor=User::where('id',$course->user_id)->first();
+
+        if(Auth::user()->id==$course->user_id){
+            return view("courses.edit",compact('course','categories','subcategories','video','videos','play_id'));
+        }
+        else{
+            return view("courses.manage",compact('course','categories','subcategories','video','videos','instructor','play_id'));
         }
     }
 
@@ -122,20 +152,10 @@ class CourseController extends Controller
             'title'=>'required',
             'description'=>'required',
             'category'=>'required',
+            'subcategory'=>'required'
         ]);
         
-        $filename=null;
-        if($request->has('file')){
-            $request->validate([
-                'file'=>'required|mimes:mpeg,ogg,mp4,webm,3gp,mov,flv,avi,wmv,ts',
-            ]);
-            $file =$request->file;
-            $filename = time().'_'.$file->getClientOriginalName();
-            $file->move(public_path("uploads"), $filename);
-        }
-        else{
-            $filename=$course->path;
-        }
+
 
         $thumbname=null;
         if($request->has('thumbnail')){
@@ -143,8 +163,11 @@ class CourseController extends Controller
                 'thumbnail'=>'mimes:jpeg,jpg,png,gif'
             ]);
             $thumbnail=$request->thumbnail;
+            $img = Image::make($thumbnail);
+            $img->resize(286, 200);
             $thumbname=time()."_.".$thumbnail->getClientOriginalExtension();
-            $thumbnail->move(public_path("Images"), $thumbname);
+            $img->save(public_path("Images/".$thumbname));
+            
         }
         else{
             $thumbname=$course->thumbnail;
@@ -153,7 +176,6 @@ class CourseController extends Controller
         $course->title=$request->title;
         $course->description=$request->description;
         $course->category=$request->category;
-        $course->path=$filename;
         $course->thumbnail=$thumbname;
         $course->save();
 

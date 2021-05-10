@@ -63,7 +63,7 @@
 
              <!-- Navbar -->
              <nav id="default-navbar"
-                  class="navbar navbar-expand navbar-dark bg-danger m-0">
+                  class="navbar navbar-expand navbar-danger bg-white m-0">
                  <div class="container-fluid">
                      <!-- Toggle sidebar -->
                      <button class="navbar-toggler d-block"
@@ -75,20 +75,12 @@
                      <!-- Brand -->
                      <a href="{{route('dashboard')}}"
                         class="navbar-brand">
-                        <img width="10%" style="border-radius: 50%;margin:0.5%;;" src="{{asset('assets/images/logo/maisha2.png')}}"
+                        <img width="8%" style="border-radius: 50%;margin:0.5%;" src="{{asset('assets/images/logo/maisha1.png')}}"
                               class="mr-2"
                               alt="Hello" />
                          <span class="d-none d-xs-md-block"></span>
                      </a>
-
-                    
-
                      <div class="flex"></div>
-
-                     <!-- Menu -->
-                     
-
-                     <!-- Menu -->
                      <ul class="nav navbar-nav flex-nowrap">
                          <!-- Notifications dropdown -->
                          <li class="nav-item dropdown dropdown-notifications dropdown-menu-sm-full">
@@ -254,13 +246,13 @@
                              <div class="mdk-drawer js-mdk-drawer"
                              id="default-drawer">
                             <div class="mdk-drawer__content ">
-                                <div class="sidebar sidebar-left sidebar-dark bg-dark o-hidden"
+                                <div class="sidebar sidebar-left sidebar-dark bg-danger o-hidden"
                                      data-perfect-scrollbar>
                                     <div class="sidebar-p-y">
                                         @if (Auth::user()->role_id==1)
                                         <div class="sidebar-heading">User</div>
                                         <ul class="sidebar-menu sm-active-button-bg">
-                                            <li class="sidebar-menu-item active">
+                                            <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button"
                                                    href="{{route('dashboard')}}">
                                                     <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">account_box</i> Trainee
@@ -355,7 +347,7 @@
                                         @elseif(Auth::user()->role_id==0)
                                         <div class="sidebar-heading">User</div>
                                         <ul class="sidebar-menu sm-active-button-bg">
-                                            <li class="sidebar-menu-item active">
+                                            <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button"
                                                    href="{{route('dashboard')}}">
                                                     <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">account_box</i> Admin
