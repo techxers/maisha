@@ -26,7 +26,7 @@ use App\Http\Controllers\SubcategoryController;
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/test', function () {
+Route::get('/new', function () {
     return view('test');
 });
 Route::get('/about', function () {

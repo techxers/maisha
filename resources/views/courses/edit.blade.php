@@ -3,7 +3,11 @@
 @section('title')
     <title> Edit Course</title>
 @endsection
-
+<style>
+    span{
+        margin-left: 50%;
+    }
+</style>
 @section('content')
 
 
@@ -99,17 +103,18 @@
                             
                                              <div class="nestable-content">
                                                 <div class="media align-items-center">
-                                                    <div class="media-left">
+                                                    {{-- <div class="media-left">
                                                         <img src="{{asset('Images/'.$video->thumbnail)}}"
                                                             alt=""
                                                             width="100"
                                                             class="rounded">
-                                                    </div>
+                                                    </div> --}}
+                                                    
                                                     <div class="media-body">
                                                         <h5 class="card-title h6 mb-0">
-                                                            <a href="{{route('video.edit',$video->id)}}">{{$video->title}}</a>
+                                                            <a href="{{route('video.edit',$video->id)}}">{{$video->title}}</a> <span> {{$views->where('video_id',$video->id)->count()}} Views </span>
                                                         </h5>
-                        
+                                                        
                                                     </div>
                                                     <div class="media-right">
                                                         <a href="{{route('video.edit',$video->id)}}"

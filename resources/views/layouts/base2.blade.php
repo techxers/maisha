@@ -254,7 +254,7 @@
                              <div class="mdk-drawer js-mdk-drawer"
                              id="default-drawer">
                             <div class="mdk-drawer__content ">
-                                <div class="sidebar sidebar-left sidebar-dark bg-danger o-hidden"
+                                <div class="sidebar sidebar-left sidebar-dark bg-dark o-hidden"
                                      data-perfect-scrollbar>
                                     <div class="sidebar-p-y">
                                        @if(Auth::user()->role_id==2)

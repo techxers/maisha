@@ -36,6 +36,7 @@
 
               
                 <div class="row">
+                    
                     @foreach ($courses as $course)
                     <div class="col-lg-4">
                         <div class="card">
@@ -54,6 +55,7 @@
                         </div>
                     </div>
                     @endforeach
+                    
                     
                 </div>
                 {{$courses->links()}}

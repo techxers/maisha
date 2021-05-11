@@ -7,6 +7,7 @@ use App\Models\Video;
 use App\Models\Course;
 use App\Models\Category;
 use App\Models\Subcategory;
+use App\Models\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
@@ -111,7 +112,7 @@ class CourseController extends Controller
     public function edit($id,Request $request)
     {
         $course=Course::findOrFail($id);
-
+        $views=View::all();
         $play_id=$request->play_id;
         
         if($play_id==null)
@@ -129,10 +130,10 @@ class CourseController extends Controller
         $instructor=User::where('id',$course->user_id)->first();
 
         if(Auth::user()->id==$course->user_id){
-            return view("courses.edit",compact('course','categories','subcategories','video','videos','play_id'));
+            return view("courses.edit",compact('views','course','categories','subcategories','video','videos','play_id'));
         }
         else{
-            return view("courses.manage",compact('course','categories','subcategories','video','videos','instructor','play_id'));
+            return view("courses.manage",compact('views','course','categories','subcategories','video','videos','instructor','play_id'));
         }
     }
 

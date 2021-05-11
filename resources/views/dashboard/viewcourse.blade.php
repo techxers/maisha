@@ -3,7 +3,11 @@
 @section('title')
     <title>View Course</title>
 @endsection
-
+<style>
+    span{
+        margin-left: 50%;
+    }
+</style>
 @section('content')
 
  
@@ -31,7 +35,7 @@
                                                 allowfullscreen="" controls controlsList="nodownload"></video>
                                     </div>
                                     <div class="card-body">
-                                        {{$video->title}}
+                                        {{$video->title}} <span>{{$views->where('video_id',$video->id)->count()}} Views</span>
                                     </div>
                                 </div>
 
@@ -47,7 +51,7 @@
                                                 <div class="media-body">
                                                     <form action="" method="get">
                                                         <input type="hidden" name="play_id" value="{{$video->id}}">
-                                                        <button type="submit" style="background-color: transparent;border:none;" ><a>{{$video->title}}</a></button>
+                                                        <button type="submit" style="background-color: transparent;border:none;" ><a>{{$video->title}}</a> {{$views->where('video_id',$video->id)->count()}} Views</button>
                                                     </form>
                                                     
                                                 </div>
@@ -63,10 +67,11 @@
                                                 @if($enrolled==True)
                                                 <form action="" method="get">
                                                     <input type="hidden" name="play_id" value="{{$video->id}}">
-                                                    <button type="submit" style="background-color: transparent;border:none;" ><a>{{$video->title}}</a></button>
+                                                  {{$views->where('video_id',$video->id)->count()}} Views
+                                                    <button type="submit" style="background-color: transparent;border:none;" ><a>{{'   '.$video->title}}</a></button>
                                                 </form>
                                                 @else
-                                                  <p class="text-muted">{{$video->title}}</p>
+                                                  <p class="text-muted">{{$video->title}} <span>{{$views->where('video_id',$video->id)->count()}} Views</span></p> 
                                                 @endif
                                                 
                                             </div>

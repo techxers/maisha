@@ -112,7 +112,7 @@
                     <p>No courses added</p>
                     @endforelse
                 </div>
-
+                {{$courses->links()}}
                 <!-- Pagination -->
                
             </div>

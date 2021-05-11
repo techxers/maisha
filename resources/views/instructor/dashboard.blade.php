@@ -20,6 +20,7 @@
                 <h1 class="h2">Dashboard</h1>
                 <div class="row">
                     <div class="col-lg-6">
+                        @if(Auth::user()->role_id==2)
                         <div class="card">
                             <div class="card-header d-flex align-items-center">
                                 <div class="flex">
@@ -70,12 +71,64 @@
                                 </table>
                             </div>
                         </div>
+                        @else
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center">
+                                <div class="flex">
+                                    <h4 class="card-title">Courses</h4>
+                                    <p class="card-subtitle">Latest Added Courses</p>
+                                </div>
+                            </div>
+                            <div data-toggle="lists"
+                                 data-lists-values='[
+                                    "js-lists-values-course", 
+                                    "js-lists-values-document",
+                                    "js-lists-values-amount",
+                                    "js-lists-values-date"
+                                    ]'
+                                 data-lists-sort-by="js-lists-values-date"
+                                 data-lists-sort-desc="true"
+                                 class="table-responsive">
+                                <table class="table table-nowrap m-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th style="margin-right: -10px;">Course</th>
+                                            <th>Date Added</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list">
+                                        @foreach ($ins_courses->take(5) as $item)
+                                            <tr>
+                                                <td>
+                                                    <div class="media align-items-center">
+                                                        <a href="{{route('editcourse',$item->id)}}"
+                                                        class="avatar avatar-4by3 avatar-sm mr-3">
+                                                            <img src="{{asset('Images/'.$item->thumbnail)}}"
+                                                                alt="course"
+                                                                class="avatar-img rounded">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <a class="text-body js-lists-values-course"
+                                                            href="{{route('editcourse',$item->id)}}"><strong>{{$item->title}}</strong></a><br>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-right">
+                                                    <small class="text-muted text-uppercase js-lists-values-date">{{$item->created_at}}</small>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header d-flex align-items-center">
                                 <div class="flex">
-                                    <h4 class="card-title"> Your Courses With Most Enrollements</h4>
+                                    <h4 class="card-title"> Most Enrolled</h4>
                                 </div>
                                 <a class="btn btn-sm btn-primary"
                                    href="instructor-earnings.html">No of Enrollements</a>

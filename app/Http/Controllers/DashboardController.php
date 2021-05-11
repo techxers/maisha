@@ -23,17 +23,19 @@ class DashboardController extends Controller
     public function index(){
         $user=Auth::user();
         $courses=Course::all();
-        $ins_courses=Course::all()->where('user_id',Auth::user()->id);
+        
         
         $enrolled=MyCourse::all();
         $mycourses=MyCourse::all()->where('user_id',Auth::user()->id);
     
         if($user->role_id==2){
+            $ins_courses=Course::all()->where('user_id',Auth::user()->id);
             return view('instructor.dashboard',compact('courses','ins_courses','enrolled'));
         }
         else if($user->role_id==0)
         {
-            return view('instructor.dashboard',compact('courses'));
+            $ins_courses=Course::all();
+            return view('instructor.dashboard',compact('courses','ins_courses','enrolled'));
         }
         else if($user->role_id==1){
             return view('dashboard.dashboard',compact('courses','mycourses'));
@@ -79,17 +81,18 @@ class DashboardController extends Controller
             $courses=Course::where('status','active')->where('title', 'LIKE', "%{$search}%")->paginate(6);
             
         }
-        
+        $mycourses=MyCourse::all()->where('user_id',Auth::user()->id);
+    
         $categories=Category::all();
         $subcategories=Subcategory::all();
-        return view('dashboard.courses',compact('courses','categories','subcategories','search'));
+        return view('dashboard.courses',compact('mycourses','courses','categories','subcategories','search'));
     }
     public function viewcourse($id,Request $request)
     {
         $enrolled= False;
         $user_id=Auth()->user()->id;
         $mycourse=MyCourse::where('course_id',$id)->where('user_id',$user_id)->first();
-       
+        $views=View::all();
         if($mycourse)
         {
             $enrolled=True;
@@ -120,7 +123,7 @@ class DashboardController extends Controller
             $videos=Video::all()->where('course_id',$id);
             $instructor=User::where('id',$course->user_id)->first();
 
-            return view("dashboard.viewcourse",compact('course','enrolled','categories','video','videos','instructor','play_id'));
+            return view("dashboard.viewcourse",compact('course','enrolled','categories','video','videos','instructor','play_id','views'));
     
     }
     public function inactive()
