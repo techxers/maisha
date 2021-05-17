@@ -12,17 +12,37 @@
          class="mdk-drawer-layout js-mdk-drawer-layout">
         <div class="mdk-drawer-layout__content page ">
 
-            <div class="container-fluid page__container">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Courses</li>
-                </ol>
-                <h1 class="h2">Courses</h1>
-                <div class="card card-body border-left-3 border-left-primary navbar-shadow mb-4">
+            <div class="container">
+                
+                <div class="card card-body border-left-3 border-left-primary navbar-shadow mb-4" style="width:100%;">
                     <form action="{{route('courses')}}" method="GET" id="search">
                         <div class="d-flex flex-wrap2 align-items-center mb-headings">
-                           
-                            <div class="flex search-form ml-3 search-form--light">
+                            <div class="form-group">
+                                <label for="custom-select"
+                                       class="form-label">Category</label><br>
+                                <select id="custom-select"
+                                        class="form-control custom-select"
+                                        style="width: 100%;" name="category">
+                                        <option value="all">All categories</option>
+                                        @foreach ($categories as $item)
+                                            <option value="{{$item->name}}">{{$item->name}}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="custom-select"
+                                       class="form-label">Subcategories</label><br>
+                                <select id="custom-select"
+                                        class="form-control custom-select"
+                                        style="width: 100%;" name="subcategory">
+                                        <option value="all">All subcategories</option>
+                                        @foreach ($subcategories as $item)
+                                            <option value="{{$item->name}}">{{$item->name}}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                            <div class="flex search-form ml-3 mt-2 search-form--light" style="width:100%;margin-right:10%">
+                                
                                 <input type="text"
                                        class="form-control"
                                        placeholder="Search courses"
@@ -38,11 +58,9 @@
                 <div class="row">
                     
                     @foreach ($courses as $course)
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="card">
-                            <div class="card-header text-center">
-                                <h4 class="card-title mb-0"><a href="{{route('viewcourse',$course->id)}}">{{$course->title}}</a></h4>
-                            </div>
+                            
                             <a href="{{route('viewcourse',$course->id)}}">
                                 <img src="{{asset('Images/'.$course->thumbnail)}}"
                                      alt="Card image cap"
@@ -50,7 +68,7 @@
                             </a>
                             <div class="card-body">
                                 <small class="text-muted">{{$course->category}}</small><br>
-                                {{$course->description}}<br>
+                                <h5 class="card-title mb-0"><a href="{{route('viewcourse',$course->id)}}">{{$course->title}}</a></h5>
                             </div>
                         </div>
                     </div>

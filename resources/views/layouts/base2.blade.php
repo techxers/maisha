@@ -289,6 +289,12 @@
                                                     <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">filter_list</i> Subcategories
                                                 </a>
                                             </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                   href="{{route('quizzes')}}">
+                                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">help</i> Quiz Manager
+                                                </a>
+                                            </li>
                                            
                                         </ul>
                                         <!-- Components menu -->

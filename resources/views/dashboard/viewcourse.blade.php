@@ -18,10 +18,10 @@
                  class="mdk-drawer-layout js-mdk-drawer-layout">
                 <div class="mdk-drawer-layout__content page ">
 
-                    <div class="container-fluid page__container">
+                    <div class="container">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="student-dashboard.html">Home</a></li>
-                            <li class="breadcrumb-item"><a href="student-browse-courses.html">Courses</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('courses')}}">Courses</a></li>
                             <li class="breadcrumb-item active">{{$course->title}}</li>
                         </ol>
                         <h1 class="h2">{{$course->title}}</h1>
@@ -51,7 +51,7 @@
                                                 <div class="media-body">
                                                     <form action="" method="get">
                                                         <input type="hidden" name="play_id" value="{{$video->id}}">
-                                                        <button type="submit" style="background-color: transparent;border:none;" ><a>{{$video->title}}</a> {{$views->where('video_id',$video->id)->count()}} Views</button>
+                                                        <button type="submit" style="background-color: transparent;border:none;" ><h6 class="text-white"><a> {{$video->title}}</a> {{$views->where('video_id',$video->id)->count()}} Views</h6></button>
                                                     </form>
                                                     
                                                 </div>
@@ -64,15 +64,13 @@
                                                 <div class="text-muted"></div>
                                             </div>
                                             <div class="media-body">
-                                                @if($enrolled==True)
+                                              
                                                 <form action="" method="get">
                                                     <input type="hidden" name="play_id" value="{{$video->id}}">
                                                   {{$views->where('video_id',$video->id)->count()}} Views
                                                     <button type="submit" style="background-color: transparent;border:none;" ><a>{{'   '.$video->title}}</a></button>
                                                 </form>
-                                                @else
-                                                  <p class="text-muted">{{$video->title}} <span>{{$views->where('video_id',$video->id)->count()}} Views</span></p> 
-                                                @endif
+                                             
                                                 
                                             </div>
                                         </div>
@@ -91,10 +89,11 @@
                                         {{session('success')}}
                                     </div>
                                 @endif
+                                @can('admin')
                                 <div class="card">
                                     <div class="card-body text-center">
                                         <p>
-                                            @can('admin')
+                                            
                                             @if ($course->status=='inactive')
                                                 <div class="media-right">
                                                     <a href="{{route('approve',$course->id)}}" class="btn btn-success" >Approve</a>
@@ -104,19 +103,10 @@
                                                     <a href="{{route('disapprove',$course->id)}}" class="btn btn-danger" >Disapprove</a>
                                                 </div>
                                             @endif
-                                            @endcan
-                                            @if ($enrolled==False)
-                                            <a href="{{route('enroll',$course->id)}}" class="btn btn-success" >Enroll Course</a> <br> <br>
-                                            Enroll course to view all videos for free
-                                            @else
-                                            
-                                            You have enrolled this course
-                                            @endif
-                                            
                                         </p>
-                                       
                                     </div>
                                 </div>
+                                @endcan
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="media align-items-center">

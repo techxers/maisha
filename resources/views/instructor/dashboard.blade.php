@@ -128,14 +128,14 @@
                         <div class="card">
                             <div class="card-header d-flex align-items-center">
                                 <div class="flex">
-                                    <h4 class="card-title"> Most Enrolled</h4>
+                                    <h4 class="card-title"> Course Views</h4>
                                 </div>
                                 <a class="btn btn-sm btn-primary"
-                                   href="instructor-earnings.html">No of Enrollements</a>
+                                   >No of Views</a>
                             </div>
                             <ul class="list-group list-group-fit mb-0">
                                 @forelse ($ins_courses->take(5) as $ins)
-                                @foreach ($enrolled as $item)
+                                @foreach ($enrolled->take(5) as $item)
                                 @if($ins->id==$item->course_id)
                                 <li class="list-group-item">
                                     <div class="media align-items-center">

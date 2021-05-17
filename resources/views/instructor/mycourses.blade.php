@@ -28,7 +28,7 @@
                                     <div class="flex search-form ml-3 search-form--light">
                                         <input type="text"
                                                class="form-control"
-                                               placeholder="Search users"
+                                               placeholder="Search my courses"
                                                id="searchSample02" name="value" value="{{$search}}">
                                                <button type="submit" style="background-color: transparent;border:none;"><i class="material-icons">search</i></button>
                                       
@@ -67,8 +67,8 @@
                                     <div class="flex"
                                          style="min-width: 200px;">
                                         <!-- <h5 class="card-title text-base m-0"><a href="instructor-course-edit.html"><strong>Learn Vue.js</strong></a></h5> -->
-                                        <h4 class="card-title mb-1"><a href="{{route('editcourse',$course->id)}}"">{{$course->title}}</a></h4>
-                                        <p class="text-black-70">{{$course->description}}</p>
+                                        <h4 class="card-title mb-1"><a href="{{route('editcourse',$course->id)}}" >{{$course->title}}</a></h4>
+                                        <p class="text-black-70"> {{ \Illuminate\Support\Str::limit($course->description, 40, $end='....') }}</p>
                                         <div class="d-flex align-items-end">
                                             <div class="d-flex flex flex-column mr-3">
                                                 <div class="d-flex align-items-center py-1 border-bottom">

@@ -344,7 +344,7 @@ header
 
 .header-area .main-nav .nav li:last-child a ,
 .background-header .main-nav .nav li:last-child a {
-  color: #fff !important;
+  background-color: #fe3f40;
   padding: 0px 20px;
   font-weight: 400;
 }
@@ -373,7 +373,9 @@ header
 .header-area .main-nav .nav li a {
   color: #2a2a2a;
 }
-
+.header-area .main-nav .nav li .main-red-button a {
+  color: #fff !important;
+}
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
   color: #fe3f40!important;
@@ -604,7 +606,7 @@ header
 @media (max-width: 992px) {
   .header-area .main-nav .nav li:last-child  ,
   .background-header .main-nav .nav li:last-child {
-    display: none;
+    /* display: none; */
   }
   .header-area .main-nav .nav li:nth-child(6),
   .background-header .main-nav .nav li:nth-child(6) {
@@ -680,6 +682,22 @@ header
     background: #f7f7f7 !important;
     color: #191a20 !important;
   }
+  .header-area .main-nav .nav li .main-red-button a {
+    height: 50px !important;
+    line-height: 50px !important;
+    padding: 0px !important;
+    border: none !important;
+    background-color: #fe3f40 !important;
+    color: #f7f7f7 !important;
+  }
+  .header-area .main-nav .nav li .main-red-button a:hover {
+    height: 50px !important;
+    line-height: 50px !important;
+    padding: 0px !important;
+    border: none !important;
+    background-color: #03a4ed !important;
+    color: #f7f7f7 !important;
+  }
   .header-area .main-nav .nav li a:hover {
     background: #eee !important;
     color: #fe3f40!important;
@@ -701,7 +719,7 @@ header
     font-weight: 400;
   }
   .header-area .main-nav .nav li.submenu ul li a:hover:before {
-    width: 0px;
+    width: 20px;
   }
   .header-area .main-nav .nav li.submenu ul.active {
     height: auto !important;
@@ -713,8 +731,9 @@ header
     top: 15px;
   }
   .header-area .main-nav .nav li.submenu:hover ul, .header-area .main-nav .nav li.submenu:focus ul {
-    height: 0px;
+    height: auto;
   }
+  
 }
 
 @media (min-width: 767px) {
@@ -1354,7 +1373,7 @@ form#contact {
   border-radius: 20px;
 }
 
-form#contact input {
+form#contact input,select,option {
   width: 100%;
   height: 46px;
   border-radius: 33px;

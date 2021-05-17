@@ -4,7 +4,7 @@
 <title>Instructor Register</title>
 @endsection
 
-@section('content')
+{{-- @section('content')
     <!-- Breadcrumb -->
     <div class="breadcrumb-area bg-image"  data-bgimage=".....assets/images/bg/breadcrumb-bg-01.jpg">
         <div class="container">
@@ -76,4 +76,75 @@
             </div>
         </div>
     </main> 
+@endsection --}}
+@section('content')
+    <div id="contact" class="contact-us section">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 wow fadeInRight" style="margin-left: 50%" data-wow-duration="0.5s" data-wow-delay="0.25s">
+              <form id="contact" action="{{route('register')}}" method="post">
+                <div class="row">
+                  @csrf
+                  <div class="col-lg-12">
+                      @if ($errors->any())
+                          <div class="alert alert-danger">
+                              @foreach ($errors->all() as $error)
+                                  <li>{{$error}}</li>
+                              @endforeach
+                          </div>
+                      @endif
+                  </div> 
+                  <div class="col-lg-12">
+                    <fieldset>
+                        <input type="text" name="name" placeholder="User Name">
+                    </fieldset>
+                  </div> 
+                  <div class="col-lg-12">
+                    <fieldset>
+                        <input type="hidden" name="role_id" value="2">
+                        <input type="hidden" name="user_type" value="">
+                      <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                        <input name="phone" placeholder="Phone Number" type="tel">
+                    </fieldset>
+                  </div> 
+                  <div class="col-lg-12">
+                    <fieldset>
+                        <input name="qualification" placeholder="Academic qualification e.g diploma or degree in ..." type="text">
+                    </fieldset>
+                  </div> 
+                  <div class="col-lg-12">
+                    <fieldset>
+                         <input name="certificate"  type="file" style="width:54%;padding:10px;" ><label for="certificate" class="input" placeholder="Upload a CV or certificate" style="width:45%;margin-left:1%;">Upload a certificate/CV </label> 
+                    </fieldset>
+                  </div> 
+                  <div class="col-lg-12">
+                    <fieldset>
+                        <input type="password" name="password" placeholder="Password">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <button type="submit" id="form-submit" class="main-button ">Login</button>
+                    </fieldset>
+                  </div>
+            
+                </div>
+                <div class="contact-dec">
+                  <img src="{{asset('test/assets/images/contact-decoration.png')}}" alt="contact">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 @endsection

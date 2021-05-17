@@ -2,12 +2,14 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\MyCoursesController;
+use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\SubcategoryController;
 
 /*
@@ -27,7 +29,7 @@ Route::get('/', function () {
     return view('home');
 });
 Route::get('/new', function () {
-    return view('test');
+    return view('new');
 });
 Route::get('/about', function () {
     return view('homepage.about');
@@ -47,9 +49,13 @@ Route::get('/instructor', function () {
 //Trainee Routes
 Route::get('/courses', [DashboardController::class,'courses'])->name('courses');
 Route::get('/viewcourse/{id}', [DashboardController::class,'viewcourse'])->name('viewcourse');
+Route::get('/mycourses',[DashboardController::class,'mycourses'])->name('mycourses');
 
-Route::get('/mycourses',[MyCoursesController::class,'index'])->name('mycourses');
-Route::get('/enroll/{id}',[MyCoursesController::class,'enroll'])->name('enroll');
+Route::get('/forums',[ForumController::class,'index'])->name('forums');
+Route::get('/create/forum',[ForumController::class,'create'])->name('forum.create');
+Route::post('/forum/store',[ForumController::class,'store'])->name('forum.store');
+Route::get('/forum/show/{id}',[ForumController::class,'show'])->name('forum.show');
+Route::post('/forum/update/{id}',[ForumController::class,'update'])->name('forum.update');
 
 Route::get('/quizresults', function () {
     return view('dashboard.quizresults');
@@ -83,6 +89,12 @@ Route::middleware('status')->group(function(){
     Route::post('/video/store/{id}',[VideoController::class,'store'])->name('video.store');
     Route::get('/video/edit/{id}',[VideoController::class,'edit'])->name('video.edit');
     Route::post('/video/update/{id}',[VideoController::class,'update'])->name('video.update');
+
+    Route::get('/quizes',[QuizController::class,'index'])->name('quizzes');
+    Route::get('/create/quiz',[QuizController::class,'create'])->name('quiz.create');
+    Route::post('/quiz/store',[QuizController::class,'store'])->name('quiz.store');
+    Route::get('/quiz/edit/{id}',[QuizController::class,'edit'])->name('quiz.edit');
+    Route::post('/quiz/update/{id}',[QuizController::class,'update'])->name('quiz.update');
 });
 Route::get('/inactive', [DashboardController::class,'inactive'])->name('inactive');
 //Admin Routes

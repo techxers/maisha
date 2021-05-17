@@ -84,7 +84,7 @@
                                 @endforeach
                                
                                 @empty
-                                    You have not yet enrolled to any course
+                                    <p style="margin-left: 10%;">You have not yet enrolled to any course</p>
                                 @endforelse
                             </ul>
                         </div>

@@ -20,13 +20,16 @@ class DashboardController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index(){
+    public function index(Request $request){
+        $search=$request->value;
+   
         $user=Auth::user();
         $courses=Course::all();
+        $categories=Category::all();
+        $subcategories=Subcategory::all();
         
-        
-        $enrolled=MyCourse::all();
-        $mycourses=MyCourse::all()->where('user_id',Auth::user()->id);
+        $enrolled=View::all();
+
     
         if($user->role_id==2){
             $ins_courses=Course::all()->where('user_id',Auth::user()->id);
@@ -38,7 +41,8 @@ class DashboardController extends Controller
             return view('instructor.dashboard',compact('courses','ins_courses','enrolled'));
         }
         else if($user->role_id==1){
-            return view('dashboard.dashboard',compact('courses','mycourses'));
+            $courses=Course::where('status','active')->paginate(10);
+            return view('dashboard.courses',compact('courses','categories','subcategories','search'));
         }
     }
     public function coursemanager(Request $request)
@@ -73,15 +77,37 @@ class DashboardController extends Controller
     {
         $search=$request->value;
         $courses=null;
+        $category=$request->category;
+        $subcategory=$request->subcategory;
+
+
         if($search==null)
         {
-            $courses=Course::where('status','active')->paginate(3);
+            $courses=Course::where('status','active')->paginate(10);
         }
-        else{
-            $courses=Course::where('status','active')->where('title', 'LIKE', "%{$search}%")->paginate(6);
-            
+        else if($search!=null && $category=='all' && $subcategory=='all'){
+            $courses=Course::where('status','active')->where('title', 'LIKE', "%{$search}%")->paginate(10);
         }
-        $mycourses=MyCourse::all()->where('user_id',Auth::user()->id);
+        else if($search!=null && $category!='all' && $subcategory=='all'){
+            $courses=Course::where('status','active')->where('title', 'LIKE', "%{$search}%")->where('category','LIKE',"%{$category}%")->paginate(10);
+        }
+        else if($search!=null && $category=='all' && $subcategory!='all'){
+            $courses=Course::where('status','active')->where('title', 'LIKE', "%{$search}%")->where('subcategory','LIKE',"%{$subcategory}%")->paginate(10);
+        }
+        else if($search!=null && $category!='all' && $subcategory!='all'){
+            $courses=Course::where('status','active')->where('title', 'LIKE', "%{$search}%")->where('category','LIKE',"%{$category}%")->orWhere('subcategory','LIKE',"%{$subcategory}%")->paginate(10);
+        }
+        else if($search==null && $category!='all' && $subcategory!='all'){
+            $courses=Course::where('status','active')->where('category','LIKE',"%{$category}%")->orWhere('subcategory','LIKE',"%{$subcategory}%")->paginate(10);
+        }
+        else if($search==null && $category=='all' && $subcategory!='all'){
+            $courses=Course::where('status','active')->Where('subcategory','LIKE',"%{$subcategory}%")->paginate(10);
+        }
+        else if($search==null && $category!='all' && $subcategory=='all'){
+            $courses=Course::where('status','active')->where('category','LIKE',"%{$category}%")->paginate(10);
+        }
+    
+        $mycourses=View::all()->where('user_id',Auth::user()->id);
     
         $categories=Category::all();
         $subcategories=Subcategory::all();
@@ -89,15 +115,10 @@ class DashboardController extends Controller
     }
     public function viewcourse($id,Request $request)
     {
-        $enrolled= False;
+      
         $user_id=Auth()->user()->id;
-        $mycourse=MyCourse::where('course_id',$id)->where('user_id',$user_id)->first();
         $views=View::all();
-        if($mycourse)
-        {
-            $enrolled=True;
-        }
-
+       
             $course=Course::findOrFail($id);
             $play_id=$request->play_id;
             
@@ -123,8 +144,25 @@ class DashboardController extends Controller
             $videos=Video::all()->where('course_id',$id);
             $instructor=User::where('id',$course->user_id)->first();
 
-            return view("dashboard.viewcourse",compact('course','enrolled','categories','video','videos','instructor','play_id','views'));
+            return view("dashboard.viewcourse",compact('course','categories','video','videos','instructor','play_id','views'));
     
+    }
+    public function mycourses(Request $request)
+    {
+        $search=$request->value;
+       $mycourses=View::where('user_id',Auth::user()->id)->paginate(4);
+       $courses=Course::all();
+       $videos=Video::all();
+       if($search==null)
+       {
+           $mycourses=View::where('user_id',Auth::user()->id)->paginate(4);
+       }
+       else{
+            $courses=Course::where('title', 'LIKE', "%{$search}%")->paginate(4);
+       }
+        
+    
+        return view('dashboard.mycourses',compact('mycourses','courses','search','videos'));
     }
     public function inactive()
     {

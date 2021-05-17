@@ -16,7 +16,7 @@
              class="mdk-drawer-layout js-mdk-drawer-layout">
             <div class="mdk-drawer-layout__content page ">
 
-                <div class="container-fluid page__container">
+                <div class="container page__container">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
                         <li class="breadcrumb-item active">My Courses</li>
@@ -42,22 +42,25 @@
                         </div>
                     </div>
                     <div class="card-columns">
+                        
                         @forelse ($mycourses as $item)
+                        @foreach ($videos as $video)
                         @foreach ($courses as $course)
-                            @if ($item->course_id==$course->id)
+                            @if ($item->video_id==$video->id)
+                            @if($video->course_id==$course->id&&$item->course_id )
                             <div class="card">
                                 <div class="card-header">
                                     <div class="media">
                                         <div class="media-left">
                                             <a href="student-student-take-course.html">
-                                                <img src="{{asset('Images/'.$course->thumbnail)}}"
+                                                <img src="{{asset('Images/'.$video->thumbnail) }}"
                                                      alt="Card image cap"
                                                      width="100"
                                                      class="rounded">
                                             </a>
                                         </div>
                                         <div class="media-body">
-                                            <h4 class="card-title m-0"><a href="{{route('viewcourse',$course->id)}}">{{$course->title}}</a></h4>
+                                            <h4 class="card-title m-0"><a href="{{route('viewcourse',$course->id)}}">{{$video->title}}</a></h4>
     
                                         </div>
                                     </div>
@@ -76,6 +79,8 @@
                                 </div>
                             </div>
                             @endif
+                            @endif
+                            @endforeach
                         @endforeach
                        
                         @empty
