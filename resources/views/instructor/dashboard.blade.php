@@ -75,41 +75,7 @@
                                 {{$ins_courses->links()}}
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="card-header d-flex align-items-center">
-                                    <div class="flex">
-                                        <h4 class="card-title">My Quizzes</h4>
-                                    </div>
-                                    <a class="btn btn-sm btn-primary"
-                                       >Attempts</a>
-                                </div>
-                                <ul class="list-group list-group-fit mb-0">
-                                    @forelse ($attempts as $item=>$attempt)
-                                    @foreach ($quizzes as $quiz)
-                                    @if($quiz->id==$attempt)
-                                    <li class="list-group-item">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <a href="{{route('quiz.edit',$quiz->id)}}"
-                                                class="text-body"><strong>{{$quiz->title}}</strong></a>
-                                            </div>
-                                            <div class="media-right">
-                                                <div class="text-center">
-                                                    <span class="badge badge-pill badge-primary">{{$allquizzes->where('quiz_id',$attempt)->count()}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    @endif
-                                    @endforeach
-                                     
-                                    @empty
-                                    <p class="m-1">No quizzes to show</p>
-                                    @endforelse
-                                </ul>
-                            </div>
-                        </div>
+                       
                         @else
                         <div class="card">
                             <div class="card-header d-flex align-items-center">
@@ -160,10 +126,47 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </div> 
                         @endif
                     </div>
-                  
+                    @if (Auth::user()->role_id==2)
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center">
+                                <div class="flex">
+                                    <h4 class="card-title">My Quizzes</h4>
+                                </div>
+                                <a class="btn btn-sm btn-primary"
+                                   >Attempts</a>
+                            </div>
+                            <ul class="list-group list-group-fit mb-0">
+                                @forelse ($attempts as $item=>$attempt)
+                                @foreach ($quizzes as $quiz)
+                                @if($quiz->id==$attempt)
+                                <li class="list-group-item">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <a href="{{route('quiz.edit',$quiz->id)}}"
+                                            class="text-body"><strong>{{$quiz->title}}</strong></a>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="text-center">
+                                                <span class="badge badge-pill badge-primary">{{$allquizzes->where('quiz_id',$attempt)->count()}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endif
+                                @endforeach
+                                 
+                                @empty
+                                <p class="m-1">No quizzes to show</p>
+                                @endforelse
+                            </ul>
+                        </div>
+                    </div>
+                    @endif
+                    
                 </div>
             </div>
 

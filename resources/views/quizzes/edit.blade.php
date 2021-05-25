@@ -45,9 +45,7 @@
                                 <div class="col-sm-6">
                                     <input id="quiz_title"
                                            type="text" name="title"
-                                           class="form-control" @cannot('quiz', $quiz)
-                                               readonly
-                                           @endcannot
+                                           class="form-control" 
                                            placeholder="Title"
                                            value="{{$quiz->title}}">
                                 </div>
@@ -56,20 +54,14 @@
                                 <label for="course_title"
                                        class="col-sm-3 col-form-label form-label">Course:</label>
                                 <div class="col-sm-9 col-md-4">
-                                    @can('quiz', $quiz)
+                                   
                                     <select id="course_title" class="custom-select form-control" name="course_id">
                                         @foreach ($courses as $item)
                                             <option value="{{$item->id}}" {{$quiz->course_id==$item->id ? 'selected': ''}}>{{$item->title}}</option>
                                         @endforeach
                                     </select>
-                                    @endcan
-                                   @cannot('quiz',$quiz)
-                                        @foreach ($courses as $item)
-                                            @if ($quiz->course_id==$item->id)
-                                            <input id="quiz_title" type="text" name="title" class="form-control"   readonly placeholder="Title" value="{{$item->title}}">
-                                            @endif
-                                        @endforeach
-                                   @endcannot
+                                
+                               
                                 </div>
                             </div>
 
@@ -82,7 +74,7 @@
                                              width="150"
                                              class="rounded"></p>
                                     
-                                    <div class="custom-file" @cannot('quiz',$quiz)  style="display: none;" @endcannot>
+                                    <div class="custom-file">
                                         <input type="file" name="thumbnail"
                                                id="quiz_image"
                                                class="custom-file-input">
@@ -94,12 +86,13 @@
                             </div>
                             
                             <div class="form-group row mb-0">
-                                @can('quiz', $quiz)
-                                <div class="col-sm-9 offset-sm-3">
-                                    <button type="submit"
-                                            class="btn btn-success">Save</button>
+                                
+                                @cannot('admin')
+                                    <div class="col-sm-9 offset-sm-3">
+                                        <button type="submit"
+                                                class="btn btn-success">Save</button>
                                     </div>
-                                @endcan
+                                @endcannot
                                 @can('admin')
                                 @if ($quiz->status=='approved')
                                     <div class="col-sm-9 offset-sm-3">
@@ -123,10 +116,11 @@
                         <h4 class="card-title">Questions</h4>
                     </div>
                     <div class="card-header">
-                        @can('quiz', $quiz)
-                        <a href="{{route('question.create',$quiz->id)}}"
-                           class="btn btn-outline-secondary">Add Question <i class="material-icons">add</i></a>
-                        @endcan
+                        @cannot('admin')
+                            <a href="{{route('question.create',$quiz->id)}}"
+                                class="btn btn-outline-secondary">Add Question <i class="material-icons">add</i>
+                            </a>
+                        @endcannot
                     </div>
                     <div class="nestable"
                          id="nestable">

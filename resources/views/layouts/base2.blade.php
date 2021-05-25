@@ -163,7 +163,7 @@
                                 data-toggle="dropdown"
                                 href="#"
                                 role="button">
-                                 <img src="{{Auth::user()->photo==null ? asset('Images/default.png') : asset('Images/'.Auth::user()->photo)==null }}"
+                                 <img src="{{Auth::user()->photo==null ? asset('Images/default.png') : asset('Images/'.Auth::user()->photo) }}"
                                       alt="Avatar"
                                       class="rounded-circle"
                                       width="40">
