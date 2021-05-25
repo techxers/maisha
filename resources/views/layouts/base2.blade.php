@@ -35,7 +35,7 @@
  <link type="text/css"
        href="{{asset('dashboard/assets/css/app.css')}}"
        rel="stylesheet">
-       <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/favicon.ico')}}')}}">
+       <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/logo/maisha1.png')}}">
 </head>
 
 <body class=" layout-fluid">
@@ -98,119 +98,61 @@
                                      data-dropdown-disable-document-scroll
                                      data-caret="false">
                                  <i class="material-icons">notifications</i>
-                                 <span class="badge badge-notifications badge-danger">2</span>
+                                 <span class="badge badge-notifications badge-danger">{{Auth::User()->unreadNotifications->count()}}</span>
                              </button>
                              <div class="dropdown-menu dropdown-menu-right">
                                  <div data-perfect-scrollbar
                                       class="position-relative">
-                                     <div class="dropdown-header"><strong>Messages</strong></div>
+                                     <div class="dropdown-header"><strong>New Notifications</strong></div>
+                                     
                                      <div class="list-group list-group-flush mb-0">
+                                    @forelse (Auth::user()->unreadNotifications as $item)
+                                    
+                                        @if ($item->data['type']=='forum')
+                                    
+                                        <a href="{{route('forum.show',$item->data['forum_id'])}}"
+                                        class="list-group-item list-group-item-action unread">
+                                         <span class="d-flex align-items-center mb-1">
+                                             <small class="text-muted">{{$item->created_at->diffForHumans()}}</small>
 
-                                         <a href="student-messages.html"
-                                            class="list-group-item list-group-item-action unread">
-                                             <span class="d-flex align-items-center mb-1">
-                                                 <small class="text-muted">5 minutes ago</small>
+                                             <span class="ml-auto unread-indicator bg-primary"></span>
 
-                                                 <span class="ml-auto unread-indicator bg-primary"></span>
-
-                                             </span>
-                                             <span class="d-flex">
-                                                 <span class="avatar avatar-xs mr-2">
-                                                     <img src="{{asset('dashboard/assets/images/people/110/woman-5.jpg')}}"
-                                                          alt="people"
-                                                          class="avatar-img rounded-circle">
-                                                 </span>
-                                                 <span class="flex d-flex flex-column">
-                                                     <strong>Michelle</strong>
-                                                     <span class="text-black-70">Clients loved the new design.</span>
-                                                 </span>
-                                             </span>
-                                         </a>
-
-                                         <a href="student-messages.html"
-                                            class="list-group-item list-group-item-action unread">
-                                             <span class="d-flex align-items-center mb-1">
-                                                 <small class="text-muted">5 minutes ago</small>
-
-                                                 <span class="ml-auto unread-indicator bg-primary"></span>
-
-                                             </span>
-                                             <span class="d-flex">
-                                                 <span class="avatar avatar-xs mr-2">
-                                                     <img src="{{asset('dashboard/assets/images/people/110/woman-5.jpg')}}"
-                                                          alt="people"
-                                                          class="avatar-img rounded-circle">
-                                                 </span>
-                                                 <span class="flex d-flex flex-column">
-                                                     <strong>Michelle</strong>
-                                                     <span class="text-black-70">🔥 Superb job..</span>
+                                         </span>
+                                         <span class="d-flex">
+                                             <span class="flex d-flex flex-column">
+                                                 <strong>New question on the forum</strong>
+                                                 <span class="text-black-70">
+                                                     @foreach ($forums as $forum)
+                                                         @if ($forum->id==$item->data['forum_id'])
+                                                             {{$forum->title}}
+                                                         @endif
+                                                     @endforeach
                                                  </span>
                                              </span>
-                                         </a>
+                                         </span>
+                                        </a>
+                                        @else
+                                        <a href="student-messages.html"
+                                           class="list-group-item list-group-item-action unread">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <small class="text-muted">{{$item->created_at->diffForHumans()}}</small>
 
-                                     </div>
+                                                <span class="ml-auto unread-indicator bg-primary"></span>
 
-                                     <div class="dropdown-header"><strong>System notifications</strong></div>
-                                     <div class="list-group list-group-flush mb-0">
-
-                                         <a href="student-messages.html"
-                                            class="list-group-item list-group-item-action border-left-3 border-left-danger">
-                                             <span class="d-flex align-items-center mb-1">
-                                                 <small class="text-muted">3 minutes ago</small>
-
-                                             </span>
-                                             <span class="d-flex">
-                                                 <span class="avatar avatar-xs mr-2">
-                                                     <span class="avatar-title rounded-circle bg-light">
-                                                         <i class="material-icons font-size-16pt text-danger">account_circle</i>
-                                                     </span>
-                                                 </span>
-                                                 <span class="flex d-flex flex-column">
-
-                                                     <span class="text-black-70">Your profile information has not been synced correctly.</span>
-                                                 </span>
-                                             </span>
-                                         </a>
-
-                                         <a href="student-messages.html"
-                                            class="list-group-item list-group-item-action">
-                                             <span class="d-flex align-items-center mb-1">
-                                                 <small class="text-muted">5 hours ago</small>
-
-                                             </span>
-                                             <span class="d-flex">
-                                                 <span class="avatar avatar-xs mr-2">
-                                                     <span class="avatar-title rounded-circle bg-light">
-                                                         <i class="material-icons font-size-16pt text-success">group_add</i>
-                                                     </span>
-                                                 </span>
-                                                 <span class="flex d-flex flex-column">
-                                                     <strong>Adrian. D</strong>
-                                                     <span class="text-black-70">Wants to join your private group.</span>
-                                                 </span>
-                                             </span>
-                                         </a>
-
-                                         <a href="student-messages.html"
-                                            class="list-group-item list-group-item-action">
-                                             <span class="d-flex align-items-center mb-1">
-                                                 <small class="text-muted">1 day ago</small>
-
-                                             </span>
-                                             <span class="d-flex">
-                                                 <span class="avatar avatar-xs mr-2">
-                                                     <span class="avatar-title rounded-circle bg-light">
-                                                         <i class="material-icons font-size-16pt text-warning">storage</i>
-                                                     </span>
-                                                 </span>
-                                                 <span class="flex d-flex flex-column">
-
-                                                     <span class="text-black-70">Your deploy was successful.</span>
-                                                 </span>
-                                             </span>
-                                         </a>
-
-                                     </div>
+                                            </span>
+                                            <span class="d-flex">
+                                                <span class="flex d-flex flex-column">
+                                                    <strong></strong>
+                                                    <span class="text-black-70">Clients loved the new design.</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        @endif
+                                    @empty
+                                        <p>No new notifications</p>
+                                    @endforelse
+                            
+                                    </div>
                                  </div>
                              </div>
                          </li>
@@ -220,19 +162,26 @@
                              <a class="nav-link dropdown-toggle"
                                 data-toggle="dropdown"
                                 href="#"
-                                role="button"><img src="{{asset('dashboard/assets/images/people/50/guy-6.jpg')}}"
+                                role="button">
+                                 <img src="{{Auth::user()->photo==null ? asset('Images/default.png') : asset('Images/'.Auth::user()->photo)==null }}"
                                       alt="Avatar"
                                       class="rounded-circle"
-                                      width="40"></a>
+                                      width="40">
+                                    
+                                    
+                                    </a>
                              <div class="dropdown-menu dropdown-menu-right">
                                  <a class="dropdown-item"
-                                    href="student-account-edit.html">
+                                    href="{{route('profile.edit',Auth::user()->id)}}">
                                      <i class="material-icons">edit</i> Edit Account
                                  </a>
                                 
+                                
                                  <a class="dropdown-item"
-                                    href="guest-login.html">
-                                     <i class="material-icons">lock</i> Logout
+                                 href="{{ route('logout') }}"
+                                 onclick="event.preventDefault();
+                                               document.getElementById('logout-form').submit();">
+                                     <i class=" material-icons">lock</i> Logout
                                  </a>
                              </div>
                          </li>
@@ -295,11 +244,23 @@
                                                     <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">help</i> Quiz Manager
                                                 </a>
                                             </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                   href="{{route('forums')}}">
+                                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">message</i> Forum
+                                                </a>
+                                            </li>
                                            
                                         </ul>
                                         <!-- Components menu -->
                                         <div class="sidebar-heading">Actions</div>
                                         <ul class="sidebar-menu">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                   href="{{route('profile.edit',Auth::user()->id)}}">
+                                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">edit</i> Edit Profile
+                                                </a>
+                                            </li>
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button"
                                                 href="{{ route('logout') }}"
@@ -312,6 +273,7 @@
                                                  @csrf
                                              </form>
                                             </li>
+                                            
                                         </ul>
                                         @elseif(Auth::user()->role_id==0)
                                         <div class="sidebar-heading">User</div>
@@ -339,12 +301,24 @@
                                                     <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">group</i>Users
                                                 </a>
                                             </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                   href="{{route('quizzes')}}">
+                                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">help</i> Quiz Manager
+                                                </a>
+                                            </li>
                                             
                                            
                                         </ul>
                                         <!-- Components menu -->
                                         <div class="sidebar-heading">Actions</div>
                                         <ul class="sidebar-menu">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                   href="{{route('profile.edit',Auth::user()->id)}}">
+                                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">edit</i> Edit Profile
+                                                </a>
+                                            </li>
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button"
                                                 href="{{ route('logout') }}"

@@ -45,7 +45,9 @@
                                 <div class="col-sm-6">
                                     <input id="quiz_title"
                                            type="text" name="title"
-                                           class="form-control"
+                                           class="form-control" @cannot('quiz', $quiz)
+                                               readonly
+                                           @endcannot
                                            placeholder="Title"
                                            value="{{$quiz->title}}">
                                 </div>
@@ -54,11 +56,20 @@
                                 <label for="course_title"
                                        class="col-sm-3 col-form-label form-label">Course:</label>
                                 <div class="col-sm-9 col-md-4">
+                                    @can('quiz', $quiz)
                                     <select id="course_title" class="custom-select form-control" name="course_id">
                                         @foreach ($courses as $item)
                                             <option value="{{$item->id}}" {{$quiz->course_id==$item->id ? 'selected': ''}}>{{$item->title}}</option>
                                         @endforeach
                                     </select>
+                                    @endcan
+                                   @cannot('quiz',$quiz)
+                                        @foreach ($courses as $item)
+                                            @if ($quiz->course_id==$item->id)
+                                            <input id="quiz_title" type="text" name="title" class="form-control"   readonly placeholder="Title" value="{{$item->title}}">
+                                            @endif
+                                        @endforeach
+                                   @endcannot
                                 </div>
                             </div>
 
@@ -70,21 +81,39 @@
                                              alt=""
                                              width="150"
                                              class="rounded"></p>
-                                    <div class="custom-file">
+                                    
+                                    <div class="custom-file" @cannot('quiz',$quiz)  style="display: none;" @endcannot>
                                         <input type="file" name="thumbnail"
                                                id="quiz_image"
                                                class="custom-file-input">
                                         <label for="quiz_image"
                                                class="custom-file-label">Choose file</label>
                                     </div>
+                                   
                                 </div>
                             </div>
                             
                             <div class="form-group row mb-0">
+                                @can('quiz', $quiz)
                                 <div class="col-sm-9 offset-sm-3">
                                     <button type="submit"
                                             class="btn btn-success">Save</button>
-                                </div>
+                                    </div>
+                                @endcan
+                                @can('admin')
+                                @if ($quiz->status=='approved')
+                                    <div class="col-sm-9 offset-sm-3">
+                                        <a href="{{route('quiz.disapprove',$quiz->id)}}" type="submit" class="btn btn-danger">Disapprove</a>
+                                    </div>  
+                                @else
+                                    <div class="col-sm-9 offset-sm-3">
+                                         <a href="{{route('quiz.approve',$quiz->id)}}" type="submit" class="btn btn-success">Approve</a>
+                                    </div>  
+                                
+                                @endif
+                                
+                                @endcan
+        
                             </div>
                         </form>
                     </div>
@@ -94,131 +123,37 @@
                         <h4 class="card-title">Questions</h4>
                     </div>
                     <div class="card-header">
-                        <a href="#"
-                           data-toggle="modal"
-                           data-target="#editQuiz"
+                        @can('quiz', $quiz)
+                        <a href="{{route('question.create',$quiz->id)}}"
                            class="btn btn-outline-secondary">Add Question <i class="material-icons">add</i></a>
+                        @endcan
                     </div>
                     <div class="nestable"
                          id="nestable">
                         <ul class="list-group list-group-fit nestable-list-plain mb-0">
+                            @forelse ($questions as $item)
                             <li class="list-group-item nestable-item">
                                 <div class="media align-items-center">
                                     <div class="media-left">
-                                        <a href="#"
+                                        <a href="{{route('question.edit',$item->id)}}"
                                            class="btn btn-default nestable-handle"><i class="material-icons">menu</i></a>
                                     </div>
                                     <div class="media-body">
-                                        Installation
+                                        {{$item->question}}
                                     </div>
                                     <div class="media-right text-right">
                                         <div style="width:100px">
-                                            <a href="#"
-                                               data-toggle="modal"
-                                               data-target="#editQuiz"
+                                            <a href="{{route('question.edit',$item->id)}}"
+                                               
                                                class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
                                         </div>
                                     </div>
                                 </div>
                             </li>
-                            <li class="list-group-item nestable-item">
-                                <div class="media align-items-center">
-                                    <div class="media-left">
-                                        <a href="#"
-                                           class="btn btn-default nestable-handle"><i class="material-icons">menu</i></a>
-                                    </div>
-                                    <div class="media-body">
-                                        The MVC architectural pattern
-                                    </div>
-                                    <div class="media-right text-right">
-                                        <div style="width:100px">
-                                            <a href="#"
-                                               data-toggle="modal"
-                                               data-target="#editQuiz"
-                                               class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item nestable-item">
-                                <div class="media align-items-center">
-                                    <div class="media-left">
-                                        <a href="#"
-                                           class="btn btn-default nestable-handle"><i class="material-icons">menu</i></a>
-                                    </div>
-                                    <div class="media-body">
-                                        Database Models
-                                    </div>
-                                    <div class="media-right text-right">
-                                        <div style="width:100px">
-                                            <a href="#"
-                                               data-toggle="modal"
-                                               data-target="#editQuiz"
-                                               class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item nestable-item"
-                                data-id="4">
-                                <div class="media align-items-center">
-                                    <div class="media-left">
-                                        <a href="#"
-                                           class="btn btn-default nestable-handle"><i class="material-icons">menu</i></a>
-                                    </div>
-                                    <div class="media-body">
-                                        Database Access
-                                    </div>
-                                    <div class="media-right text-right">
-                                        <div style="width:100px">
-                                            <a href="#"
-                                               data-toggle="modal"
-                                               data-target="#editQuiz"
-                                               class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item nestable-item"
-                                data-id="5">
-                                <div class="media align-items-center">
-                                    <div class="media-left">
-                                        <a href="#"
-                                           class="btn btn-default nestable-handle"><i class="material-icons">menu</i></a>
-                                    </div>
-                                    <div class="media-body">
-                                        Eloquent Basics
-                                    </div>
-                                    <div class="media-right text-right">
-                                        <div style="width:100px">
-                                            <a href="#"
-                                               data-toggle="modal"
-                                               data-target="#editQuiz"
-                                               class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item nestable-item"
-                                data-id="6">
-                                <div class="media align-items-center">
-                                    <div class="media-left">
-                                        <a href="#"
-                                           class="btn btn-default nestable-handle"><i class="material-icons">menu</i></a>
-                                    </div>
-                                    <div class="media-body">
-                                        Take Quiz
-                                    </div>
-                                    <div class="media-right text-right">
-                                        <div style="width:100px">
-                                            <a href="#"
-                                               data-toggle="modal"
-                                               data-target="#editQuiz"
-                                               class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                            @empty
+                                <p>No questions created on this quiz</p>
+                            @endforelse
+                            
                         </ul>
                     </div>
                 </div>

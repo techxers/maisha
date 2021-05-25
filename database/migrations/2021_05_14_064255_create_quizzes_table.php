@@ -19,6 +19,7 @@ class CreateQuizzesTable extends Migration
             $table->integer('user_id');
             $table->integer('course_id');
             $table->string('thumbnail');
+            $table->string('status')->default('not_approved');
             $table->timestamps();
         });
     }

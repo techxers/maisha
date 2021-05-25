@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quiz;
+use App\Models\Question;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+   
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +28,10 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $quiz=Quiz::findOrFail($id);
+        return view('questions.create',compact('quiz'));
     }
 
     /**
@@ -32,9 +40,27 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        $request->validate([
+            'question'=>'required|string',
+            'first'=>'required|string',
+            'second'=>'required|string',
+            'third'=>'required|string',
+            'fourth'=>'required|string'
+        ]);
+
+        $question= new Question;
+        $question->quiz_id=$id;
+        $question->question=$request->question;
+        $question->first=$request->first;
+        $question->second=$request->second;
+        $question->third=$request->third;
+        $question->fourth=$request->fourth;
+        $question->answer= $request->answer;
+        $question->save();
+
+        return redirect()->route('quiz.edit',$id)->with('success','Question added successfully');
     }
 
     /**
@@ -45,7 +71,7 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -56,7 +82,8 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $question=Question::findOrFail($id);
+        return view('questions.edit',compact('question'));
     }
 
     /**
@@ -68,7 +95,24 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'question'=>'required|string',
+            'first'=>'required|string',
+            'second'=>'required|string',
+            'third'=>'required|string',
+            'fourth'=>'required|string'
+        ]);
+
+        $question=  Question::findOrFail($id);
+        $question->question=$request->question;
+        $question->first=$request->first;
+        $question->second=$request->second;
+        $question->third=$request->third;
+        $question->fourth=$request->fourth;
+        $question->answer= $request->answer;
+        $question->save();
+
+        return redirect()->route('quiz.edit',$question->quiz_id)->with('success','Question updated successfully');
     }
 
     /**

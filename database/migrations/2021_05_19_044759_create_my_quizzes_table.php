@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateForumsTable extends Migration
+class CreateMyQuizzesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateForumsTable extends Migration
      */
     public function up()
     {
-        Schema::create('forums', function (Blueprint $table) {
+        Schema::create('my_quizzes', function (Blueprint $table) {
             $table->id();
+            $table->integer('question_id');
             $table->integer('user_id');
-            $table->integer('course_id');
-            $table->string('title');
-            $table->string('description');
-            $table->string('status')->default('not approved');
+            $table->integer('quiz_id');
+            $table->string('result');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateForumsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('forums');
+        Schema::dropIfExists('my_quizzes');
     }
 }

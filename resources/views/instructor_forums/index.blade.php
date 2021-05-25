@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.base2')
 
 @section('title')
     <title> Forum</title>
@@ -21,11 +21,7 @@
                 <div class="row">
                     <div class="col-md-8">
 
-                        <div class="d-flex align-items-center mb-4">
-                            <h1 class="h2 flex mr-3 mb-0">Forum</h1>
-                            <a href="{{route('forum.create')}}"
-                               class="btn btn-success">Ask a Question</a>
-                        </div>
+                       
 
                         @if (session('success'))
                             <div class="alert alert-success">
@@ -34,41 +30,35 @@
                         @endif
                         @if ($errors->any())
                             <div class="alert alert-danger">
-                                @foreach ($errors as $item)
+                                @foreach ($errors->all() as $item)
                                     <li>{{$error}}</li>
                                 @endforeach
                             </div>
                         @endif
                         <div class="flex search-form form-control-rounded search-form--light mb-2"
                         style="min-width: 200px;">
-                       <input type="text"
-                              class="form-control"
-                              placeholder="Search discussions"
-                              id="searchSample02">
-                       <button class="btn pr-3"
-                               type="button"
-                               role="button"><i class="material-icons">search</i></button>
+                       
+
                    </div>
                         <div class="card">
                             <div class="card-header">
                                 <div class="media align-items-center">
                                     <div class="media-body">
-                                        <h4 class="card-title">Latest</h4>
-                                        <p class="card-subtitle">Latest questions on the forum.</p>
+                                        <h4 class="card-title">General Questions</h4>
+                                        <p class="card-subtitle">General Questions on the forum.</p>
                                     </div>
                                 </div>
                             </div>
 
                             <ul class="list-group list-group-fit">
-                                @forelse($forums as $forum)
-                                @foreach ($trainee as $item)
-                                    
-                                @if($forum->user_id==$item->id && $item->id!=Auth::user()->id)
+                                @forelse($general as $forum)
+                                @foreach ($trainees as $item)
+                                @if($forum->user_id==$item->id)
                                 <li class="list-group-item forum-thread">
                                     <div class="media align-items-center">
                                         <div class="media-left">
                                             <div class="forum-icon-wrapper">
-                                                <a href="student-forum-thread.html"
+                                                <a href="{{route('forum.show',$forum->id)}}"
                                                    class="forum-thread-icon">
                                                     <i class="material-icons">description</i>
                                                 </a>
@@ -83,7 +73,7 @@
                                         </div>
                                         <div class="media-body">
                                             <div class="d-flex align-items-center">
-                                                <a href="student-profile.html"
+                                                <a href="{{route('forum.show',$forum->id)}}"
                                                    class="text-body"><strong>{{$item->name}}</strong></a>
                                                 <small class="ml-auto text-muted">{{$forum->created_at->diffForHumans()}}</small>
                                             </div>
@@ -95,9 +85,9 @@
                                 @endif
                                 @endforeach
                                 @empty
-                                <p class="m-3 text-black-70">There are no recent questions on the Forum</p>
+                                <p class="text-black-70 m-3">There are no recent general questions on the Forum</p>
                                 @endforelse
-                                {{$forums->links()}}
+                                {{$general->links()}}
                             </ul>
                         </div>
 
@@ -106,19 +96,15 @@
                                 <div class="media align-items-center">
                                     <div class="media-body">
                                         <h4 class="card-title">Your Questions</h4>
-                                        <p class="card-subtitle">Latest questions your have asked on the forum.</p>
-                                    </div>
-                                    <div class="media-right">
-                                        <a href="{{route('forum.create')}}"
-                                           class="btn btn-white btn-sm"><i class="material-icons">add</i></a>
+                                        <p class="card-subtitle">Latest questions related to your course.</p>
                                     </div>
                                 </div>
                             </div>
 
                             <ul class="list-group list-group-fit">
-                                @forelse ($myforums as $item)
+                                @forelse ($forums as $item)
                                 @foreach ($courses as $course)
-                                @if ($item->id==$course->id)
+                                @if ($item->course_id==$course->id && Auth::user()->id==$course->user_id)
                                 <li class="list-group-item forum-thread">
                                     <div class="media align-items-center">
                                         <div class="media-left">
@@ -150,38 +136,17 @@
                                 @endif
                                 @endforeach
                                 @empty
-                                  <p class="m-3 text-black-70">  You have not asked any questions</p>
+                                  <p class="text-black-70 m-3">  You have not asked any questions</p>
                                 @endforelse
-                               {{$myforums->links()}}
+                               {{$forums->links()}}
                             </ul>
                         </div>
-
-
                     </div>
                     <div class="col-md-4">
 
-                        <h4>Our Instructors</h4>
-                        <p class="text-black-70">Our experienced instructors are ready to answer your questions.</p>
-
-                        <div class="mb-4">
-                            @forelse ($instructors as $item)
-                            <div class="d-flex align-items-center mb-2">
-                                <a href="student-profile.html"
-                                   class="avatar avatar-sm mr-3">
-                                    {{-- <img src="assets/images/people/50/guy-1.jpg"
-                                         alt=""
-                                         class="avatar-img rounded-circle"> --}}
-                                </a>
-                                <a href="student-profile.html"
-                                   class="flex mr-2 text-body"><strong>{{$item->name}}</strong></a>
-                                <span class="text-black-70 mr-2">{{$courses->where('user_id',$item->id)->count()}} Courses</span>
-                                <i class="text-muted material-icons font-size-16pt">opacity</i>
-                            </div>
-                            @empty
-                               <p class="m-3 text-black-70"> No instructors to show</p>
-                            @endforelse
-
-                        </div>
+                        <h4>About Forum Questions</h4>
+                        <p class="text-black-70">General questions do not relate to any of your course by you are free to answer them.</p>
+                        <p class="text-black-70">Your questions are those related to your courses and you are expected to answer them.</p>
 
                     </div>
                 </div>

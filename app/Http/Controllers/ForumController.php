@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
-use App\Models\Forum;
 use App\Models\User;
+use App\Models\Forum;
+use App\Models\Course;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\ForumNotification;
+use Illuminate\Support\Facades\Notification;
 
 class ForumController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,10 +24,24 @@ class ForumController extends Controller
      */
     public function index()
     {
+        if(Auth::user()->role_id==1){
         $instructors=User::all()->where('role_id',2);
+        $trainees=User::all()->where('role_id',1);
         $courses=Course::all();
-        $forums=Forum::all()->where('user_id',Auth::user()->id);
-        return view('forums.index',compact('instructors','courses','forums'));
+        $myforums=Forum::where('user_id',Auth::user()->id)->paginate(5);
+        $forums=Forum::where('status','approved')->paginate(5);
+
+        return view('forums.index',compact('instructors','courses','forums','myforums','trainees'));
+        }
+        else if(Auth::user()->role_id==2)
+        {
+            $courses=Course::all()->where('user_id',Auth::user()->id);
+            $trainees=User::all()->where('role_id',1);
+            $general=Forum::where('course_id',0)->paginate(5);
+            $forums=Forum::where('course_id','!=',0)->paginate(5);
+            return view('instructor_forums.index',compact('courses','general','forums','trainees'));
+        }
+       
     }
 
     /**
@@ -53,6 +74,23 @@ class ForumController extends Controller
         $forum->course_id=$request->course_id;
         $forum->user_id=Auth::user()->id;
         $forum->save();
+         
+        $course=Course::findOrFail($forum->course_id);
+
+        if($forum->course_id!=0)
+        {
+            $user=User::where('id',$course->user_id)->first();
+        }
+        else{
+            $user=User::all()->where('role_id',2);
+        }
+       
+        $type='forum';
+        $sender_id=$forum->user_id;
+        $forum_id=$forum->id;
+        $course_id=$forum->course_id;
+        Notification::send($user,new ForumNotification($type,$sender_id,$forum,$course_id));
+        
 
         return redirect()->route('forums')->with('success','Your question has been posted successfully.');
     }
@@ -68,7 +106,19 @@ class ForumController extends Controller
         $forum=Forum::findOrFail($id);
         $instructors=User::all()->where('role_id',2);
         $courses=Course::all();
-        return view('forums.show',compact('forum','instructors','courses'));
+        $user=User::findOrFail($forum->user_id);
+        $replies=Reply::all()->where('forum_id',$id);
+        $users=User::all();
+
+        if(Auth::user()->role_id==1)
+        {
+    
+            return view('forums.show',compact('users','forum','instructors','courses','user','replies'));
+        }
+        else{
+            return view('instructor_forums.show',compact('users','forum','instructors','courses','user','replies'));
+        }
+       
     }
 
     /**

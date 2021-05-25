@@ -12,11 +12,12 @@
          class="mdk-drawer-layout js-mdk-drawer-layout">
         <div class="mdk-drawer-layout__content page ">
 
-            <div class="container">
-                
+            <div class="container">   
                 <div class="card card-body border-left-3 border-left-primary navbar-shadow mb-4" style="width:100%;">
                     <form action="{{route('courses')}}" method="GET" id="search">
+                        <div class="row">
                         <div class="d-flex flex-wrap2 align-items-center mb-headings">
+                            <div class="col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="custom-select"
                                        class="form-label">Category</label><br>
@@ -29,6 +30,8 @@
                                         @endforeach
                                 </select>
                             </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
                             <div class="form-group">
                                 <label for="custom-select"
                                        class="form-label">Subcategories</label><br>
@@ -41,15 +44,18 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="flex search-form ml-3 mt-2 search-form--light" style="width:100%;margin-right:10%">
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                            <div class="flex search-form ml-3 mt-2 search-form--light" style="width:100%;">
                                 
                                 <input type="text"
                                        class="form-control"
                                        placeholder="Search courses"
                                        id="searchSample02" name="value" value="{{$search}}">
                                        <button type="submit" style="background-color: transparent;border:none;"><i class="material-icons">search</i></button>
-                              
                             </div>
+                            </div>
+                        </div>
                         </div>
                     </form>
                 </div>
@@ -68,13 +74,17 @@
                             </a>
                             <div class="card-body">
                                 <small class="text-muted">{{$course->category}}</small><br>
-                                <h5 class="card-title mb-0"><a href="{{route('viewcourse',$course->id)}}">{{$course->title}}</a></h5>
+                                <h5 class="card-title mb-0"><a href="{{route('viewcourse',$course->id)}}">{{$course->title}}</a> 
+                                 @if ($quizzes->where('course_id',$course->id)->count()>0)
+                                 <button  class="btn btn-white btn-sm float-right" title="This course has a quiz"> <i class="material-icons btn__icon--right">help</i> </button></h5>
+                                 @endif
+                                     
+                                
                             </div>
+
                         </div>
                     </div>
                     @endforeach
-                    
-                    
                 </div>
                 {{$courses->links()}}
             </div>

@@ -22,11 +22,6 @@
                     <div class="media-body">
                         <h1 class="h2">Quizzes</h1>
                     </div>
-                    <div class="media-right d-flex align-items-center">
-                        <a href="{{route('quiz.create')}}"
-                           class="btn btn-success mr-2">Add quiz</a>
-                      
-                    </div>
                 </div>
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -61,28 +56,25 @@
                             </div>
                         </div>
                         <div class="card-footer text-center">
-                            
                             <a href="{{route('quiz.edit',$item->id)}}"
-                               class="btn btn-default btn-sm float-left"><i class="material-icons btn__icon--left">edit</i> Edit </a>
-                               @if ($item->status=='approved')
-                               <div class="clearfix text-success">
-                                   Approved
-                               </div>
-                           @else
-                               <div class="clearfix text-danger">
-                                   Unapproved
-                               </div>
-                           @endif
+                               class="btn btn-default btn-sm float-left"><i class="material-icons btn__icon--left">edit</i> View </a>
+                            @if ($item->status=='approved')
+                                <div class="clearfix text-success">
+                                    Approved
+                                </div>
+                            @else
+                                <div class="clearfix text-danger">
+                                    Unapproved
+                                </div>
+                            @endif
+                               
                         </div>
                     </div>
                     @empty
-                        You have not added any quizzes
+                        No recent quizzes added
                     @endforelse
                 </div>
-
-               
             </div>
-
         </div>
 
 @endsection

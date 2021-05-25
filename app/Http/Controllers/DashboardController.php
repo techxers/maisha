@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quiz;
 use App\Models\User;
 use App\Models\View;
+use App\Models\Forum;
 use App\Models\Video;
 use App\Models\Course;
+use App\Models\MyQuiz;
 use App\Models\Category;
 use App\Models\MyCourse;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 
 class DashboardController extends Controller
 {
@@ -27,13 +32,21 @@ class DashboardController extends Controller
         $courses=Course::all();
         $categories=Category::all();
         $subcategories=Subcategory::all();
+        $forums=Forum::all();
         
         $enrolled=View::all();
-
+        $quizzes=Quiz::all();
     
         if($user->role_id==2){
-            $ins_courses=Course::all()->where('user_id',Auth::user()->id);
-            return view('instructor.dashboard',compact('courses','ins_courses','enrolled'));
+            $ins_courses=Course::where('user_id',Auth::user()->id)->paginate(5);
+            $myviews=View::all();
+            $allquizzes=MyQuiz::all();
+
+            $quizzes=Quiz::all()->where('user_id',Auth::user()->id);
+            $myquizzes=Quiz::where('user_id',Auth::user()->id)->pluck('id');
+            $attempts=MyQuiz::whereIn('quiz_id',$myquizzes)->distinct('quiz_id')->pluck('quiz_id');
+            //dd($attempts);
+            return view('instructor.dashboard',compact('allquizzes','quizzes','attempts','myviews','courses','ins_courses','enrolled'));
         }
         else if($user->role_id==0)
         {
@@ -42,7 +55,8 @@ class DashboardController extends Controller
         }
         else if($user->role_id==1){
             $courses=Course::where('status','active')->paginate(10);
-            return view('dashboard.courses',compact('courses','categories','subcategories','search'));
+            $quizzes=Quiz::all()->where('status','approved');
+            return view('dashboard.courses',compact('quizzes','courses','categories','subcategories','search'));
         }
     }
     public function coursemanager(Request $request)
@@ -56,7 +70,7 @@ class DashboardController extends Controller
            }
            else{
                  $courses=Course::where('user_id',Auth::user()->id)->where('title', 'LIKE', "%{$search}%")->paginate(4);
-           }
+        }
             
             return view('instructor.mycourses',compact('courses','search'));
         }
@@ -111,14 +125,20 @@ class DashboardController extends Controller
     
         $categories=Category::all();
         $subcategories=Subcategory::all();
-        return view('dashboard.courses',compact('mycourses','courses','categories','subcategories','search'));
+        $quizzes=Quiz::all()->where('status','approved');
+        return view('dashboard.courses',compact('quizzes','mycourses','courses','categories','subcategories','search'));
     }
     public function viewcourse($id,Request $request)
     {
       
         $user_id=Auth()->user()->id;
         $views=View::all();
-       
+        $quiz=Quiz::where('course_id',$id)->first();
+        $show_quiz=false;
+        if($quiz)
+        {
+            $show_quiz=true;
+        }
             $course=Course::findOrFail($id);
             $play_id=$request->play_id;
             
@@ -144,21 +164,21 @@ class DashboardController extends Controller
             $videos=Video::all()->where('course_id',$id);
             $instructor=User::where('id',$course->user_id)->first();
 
-            return view("dashboard.viewcourse",compact('course','categories','video','videos','instructor','play_id','views'));
+            return view("dashboard.viewcourse",compact('show_quiz','quiz','course','categories','video','videos','instructor','play_id','views'));
     
     }
     public function mycourses(Request $request)
     {
         $search=$request->value;
-       $mycourses=View::where('user_id',Auth::user()->id)->paginate(4);
+       $mycourses=View::where('user_id',Auth::user()->id)->paginate(8);
        $courses=Course::all();
        $videos=Video::all();
        if($search==null)
        {
-           $mycourses=View::where('user_id',Auth::user()->id)->paginate(4);
+           $mycourses=View::where('user_id',Auth::user()->id)->paginate(8);
        }
        else{
-            $courses=Course::where('title', 'LIKE', "%{$search}%")->paginate(4);
+            $courses=Course::where('title', 'LIKE', "%{$search}%")->paginate(8);
        }
         
     
@@ -168,4 +188,60 @@ class DashboardController extends Controller
     {
         return view('instructor.pending');
     }
+    public function profile($id)
+    {
+        if(Auth::user()->role_id==1)
+        {
+            $user=User::findOrFail($id);
+            return view('dashboard.profile');
+        }
+        $user=User::findOrFail($id);
+        return view('instructor.profile');
+    }
+    public function update($id,Request $request)
+    {
+        $request->validate([
+            'name'=>'required|string',
+            'email'=>'required|email',
+        ]);
+            $photoname=null;
+            if($request->has('photo'))
+            {
+                $request->validate([
+                    'photo'=>'mimes:jpeg,jpg,png,gif|required'
+                ]);
+                $photo=$request->photo;
+                $img = Image::make($photo);
+                $img->resize(110, 110);
+                $photoname=time()."_.".$photo->getClientOriginalExtension();
+                $img->save(public_path("Images/".$photoname));
+            }
+            else{
+                $photoname=Auth::user()->photo;
+            }
+            $password=Auth::user()->password;
+            if($request->password==null)
+            {
+                $password=Auth::user()->password;
+            }
+            else
+            {
+                $request->validate([
+                    'password'=>'min:8',
+                ]);
+                $password=Hash::make($request->password);
+            }
+      
+        $user=User::findOrFail($id);
+        $user->name=$request->name;
+        $user->photo=$photoname;
+        $user->email=$request->email;
+        $user->phone=$request->phone;
+        $user->password=$password;
+        $user->save();
+
+
+        return redirect()->back()->with('success','Profile updated successfully');
+    }
+
 }

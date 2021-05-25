@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +21,17 @@ class QuizController extends Controller
      */
     public function index()
     {
-        $quizzes=Quiz::all()->where('user_id',Auth::user()->id);
-       
-        return view('quizzes.index',compact('quizzes'));
+        if(Auth::user()->role_id==2){
+            $quizzes=Quiz::all()->where('user_id',Auth::user()->id);
+            $questions=Question::all();
+            return view('quizzes.index',compact('quizzes','questions'));
+        }
+        else if(Auth::user()->role_id==0){
+            $quizzes=Quiz::all();
+            $questions=Question::all();
+            return view('quizzes.manage',compact('quizzes','questions'));
+        }
+        
     }
 
     /**
@@ -67,11 +80,22 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function approve($id)
     {
-        //
-    }
+        $quiz=Quiz::findOrFail($id);
+        $quiz->status='approved';
+        $quiz->save();
 
+        return redirect()->back()->with('success','Quiz approved successfully');
+    }
+    public function disapprove($id)
+    {
+        $quiz=Quiz::findOrFail($id);
+        $quiz->status='not_approved';
+        $quiz->save();
+
+        return redirect()->back()->with('success','Quiz disapproved successfully');
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -82,7 +106,8 @@ class QuizController extends Controller
     {
         $quiz=Quiz::findOrFail($id);
         $courses=Course::all();
-        return view('quizzes.edit',compact('quiz','courses'));
+        $questions=Question::all()->where('quiz_id',$id);
+        return view('quizzes.edit',compact('quiz','courses','questions'));
     }
 
     /**

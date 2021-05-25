@@ -35,5 +35,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('course',function($course){
             return Auth::user()->id===$course->user_id;
         });
+        Gate::define('quiz',function($quiz){
+            return Auth::user()->id===$quiz->user_id;
+        });
     }
 }

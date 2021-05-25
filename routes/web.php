@@ -4,13 +4,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\MyQuizController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MyCoursesController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\SubcategoryController;
+use App\Models\MyQuiz;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,9 +61,11 @@ Route::post('/forum/store',[ForumController::class,'store'])->name('forum.store'
 Route::get('/forum/show/{id}',[ForumController::class,'show'])->name('forum.show');
 Route::post('/forum/update/{id}',[ForumController::class,'update'])->name('forum.update');
 
-Route::get('/quizresults', function () {
-    return view('dashboard.quizresults');
-})->name('quizresults');
+
+Route::get('/myquizresults', [MyQuizController::class,'index'])->name('quizresults');
+Route::get('/myquiz/{id}', [MyQuizController::class,'create'])->name('myquiz.create');
+Route::post('/myquiz/submit/{id}', [MyQuizController::class,'store'])->name('myquiz.store');
+Route::get('/myquiz/view/{id}',[MyQuizController::class,'show'])->name('myquiz.show');
 
 // Instructor Routes
 Route::middleware('status')->group(function(){
@@ -95,8 +101,21 @@ Route::middleware('status')->group(function(){
     Route::post('/quiz/store',[QuizController::class,'store'])->name('quiz.store');
     Route::get('/quiz/edit/{id}',[QuizController::class,'edit'])->name('quiz.edit');
     Route::post('/quiz/update/{id}',[QuizController::class,'update'])->name('quiz.update');
+
+    Route::post('/reply/store{id}',[ReplyController::class,'store'])->name('reply.store');
+    
+    Route::get('/create/question/{id}',[QuestionController::class,'create'])->name('question.create');
+    Route::post('/store/question/{id}',[QuestionController::class,'store'])->name('question.store');
+    Route::get('/edit/question/{id}',[QuestionController::class,'edit'])->name('question.edit');
+    Route::post('/update/question/{id}',[QuestionController::class,'update'])->name('question.update');
+
+    
 });
+Route::get('/profile/{id}',[DashboardController::class,'profile'])->name('profile.edit');
+Route::post('/profile/{id}',[DashboardController::class,'update'])->name('profile.update');
+
 Route::get('/inactive', [DashboardController::class,'inactive'])->name('inactive');
+
 //Admin Routes
 Route::get('/instructors', [InstructorController::class,'index'])->name('instructors');
 Route::get('/instructor/{id}/show', [InstructorController::class,'show'])->name('show.instructors');
@@ -106,6 +125,9 @@ Route::get('/instructor/{id}/deactivate', [InstructorController::class,'deactiva
 
 Route::get('/courses/{id}/approve',[CourseController::class,'approve'])->name('approve');
 Route::get('/courses/{id}/disapprove',[CourseController::class,'disapprove'])->name('disapprove');
+
+Route::get('/quiz/{id}/approve',[QuizController::class,'approve'])->name('quiz.approve');
+Route::get('/quiz/{id}/disapprove',[QuizController::class,'disapprove'])->name('quiz.disapprove');
 
 Auth::routes();
 

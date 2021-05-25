@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Forum;
+use App\Models\Reply;
+use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\ForumNotification;
+use Illuminate\Support\Facades\Notification;
 
-class ViewsController extends Controller
+class ReplyController extends Controller
 {
-    
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -37,9 +39,29 @@ class ViewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+       $request->validate([
+           'reply'=>'required|string'
+       ]);
+        $forum=Forum::findOrFail($id);
+        $reply=new Reply;
+        $reply->forum_id=$forum->id;
+        $reply->user_id=Auth::user()->id;
+        $reply->reply=$request->reply;
+        $reply->save();
+
+        if(Auth::user()->role_id==2)
+        {
+            $user=User::findOrFail($forum->user_id);
+            $sender_id=Auth::user()->id;
+            $type='reply';
+            $forum_id=$forum->id;
+            $course_id=$forum->course_id;
+            Notification::send($user,new ForumNotification($type,$sender_id,$forum,$course_id));
+        }
+        
+        return redirect()->back()->with('success','Reply sent successfully');
     }
 
     /**

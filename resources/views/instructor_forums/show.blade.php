@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.base2')
 
 @section('title')
     <title> View Question</title>
@@ -41,12 +41,12 @@
                                 <div class="flex">
                                     <p class="d-flex align-items-center mb-2">
                                         <a href="student-profile.html"
-                                           class="text-body mr-2"><strong>{{Auth::user()->id==$user->id ? 'You':$user->name}}</strong></a>
+                                           class="text-body mr-2"><strong>{{$user->name}}</strong></a>
                                         <small class="text-muted">{{$forum->created_at->diffForHumans()}}</small>
                                     </p>
                                     <p>{{$forum->description}}</p>
                                     
-                                    
+            
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                                               name="reply"
                                               id="comment"
                                               rows="3"
-                                              placeholder="Type here to reply ..."></textarea>
+                                              placeholder="Type here to reply to {{$user->name}} ..."></textarea>
                                 </div>
                                 <button class="btn btn-success" type="submit">Reply</button>
                             </form>
@@ -139,8 +139,8 @@
                     </div>
                     <div class="col-md-4">
 
-                        <h4>Our Instructors</h4>
-                        <p class="text-black-70">Our experienced instructors are ready to answer your questions.</p>
+                        <h4>About Replies</h4>
+                        <p class="text-black-70">{{$user->name.' will be notified once you reply'}}.</p>
 
                         <div class="mb-4">
                             @forelse ($instructors as $item)
@@ -152,12 +152,12 @@
                                          class="avatar-img rounded-circle"> --}}
                                 </a>
                                 <a href="student-profile.html"
-                                   class="flex mr-2 text-body"><strong>{{$item->name}}</strong></a>
-                                <span class="text-black-70 mr-2">{{$courses->where('user_id',$item->id)->count()}} Courses</span>
+                                   class="flex mr-2 text-body"><strong>No of Replies:</strong></a>
+                                <span class="text-black-70 mr-2">{{$replies->count()}} Replies</span>
                                 <i class="text-muted material-icons font-size-16pt">opacity</i>
                             </div>
                             @empty
-                                No instructors to show
+                                <p class="mt-1 mb-0 text-black-70">No replies to this question</p>
                             @endforelse
 
                         </div>

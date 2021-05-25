@@ -107,6 +107,29 @@
                                     </div>
                                 </div>
                                 @endcan
+                                <div class="card-body text-center">
+                                    @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        @foreach ($errors as $item)
+                                            <li>{{$error}}</li>
+                                        @endforeach
+                                    </div>
+                                @endif
+                               
+                                @cannot('admin')
+                                @if($show_quiz==true&&$quiz->status=='approved')
+                                <div class="card">
+                                        <p>
+                                            <div class="media-right">
+                                                <a href="{{route('myquiz.create',$quiz->id)}}" class="btn btn-success" >Take Quiz</a>
+                                            </div> 
+                                            Take a quiz on this course  
+                                        </p>
+                                    </div>
+                                </div>
+                                @endif
+                                @endcannot
+                               
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="media align-items-center">

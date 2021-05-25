@@ -30,7 +30,7 @@
                   </div>
                   <div class="col-lg-12">
                     <fieldset>
-                      <input type="password" name="password" id="">
+                      <input type="password" name="password" id="" placeholder="Your assword">
                     </fieldset>
                   </div>
                   <div class="col-lg-12">

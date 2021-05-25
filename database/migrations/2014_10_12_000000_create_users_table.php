@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->integer('role_id');
             $table->string('user_type')->nullable();
             $table->string('phone');
+            $table->string('photo')->nullable();
             $table->string('qualification')->nullable();
             $table->string('certificate')->nullable();
             $table->string('status');

@@ -44,7 +44,7 @@
         <link type="text/css"
               href="{{asset('dashboard/assets/css/app.css')}}"
               rel="stylesheet">
-
+              <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/logo/maisha1.png')}}">
     </head>
 
     <body class=" fixed-layout">
@@ -119,119 +119,78 @@
                                             data-dropdown-disable-document-scroll
                                             data-caret="false">
                                         <i class="material-icons">notifications</i>
-                                        <span class="badge badge-notifications badge-danger">2</span>
+                                        <span class="badge badge-notifications badge-danger">{{Auth::user()->unreadNotifications->count()}}</span>
                                     </button>
+                                    
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <div data-perfect-scrollbar
                                              class="position-relative">
-                                            <div class="dropdown-header"><strong>Messages</strong></div>
+                                            <div class="dropdown-header"><strong>New Notifications</strong></div>
+                                            
                                             <div class="list-group list-group-flush mb-0">
-
-                                                <a href="fixed-student-messages.html"
-                                                   class="list-group-item list-group-item-action unread">
-                                                    <span class="d-flex align-items-center mb-1">
-                                                        <small class="text-muted">5 minutes ago</small>
-
-                                                        <span class="ml-auto unread-indicator bg-primary"></span>
-
-                                                    </span>
-                                                    <span class="d-flex">
-                                                        <span class="avatar avatar-xs mr-2">
-                                                            <img src="assets/images/people/110/woman-5.jpg"
-                                                                 alt="people"
-                                                                 class="avatar-img rounded-circle">
+                                           @forelse (Auth::user()->unreadNotifications as $item)
+                                           
+                                               @if ($item->data['type']=='forum')
+                                               <a href="{{route('forum.show',$item->data['forum_id'])}}"
+                                               class="list-group-item list-group-item-action unread">
+                                                <span class="d-flex align-items-center mb-1">
+                                                    <small class="text-muted">{{$item->created_at->diffForHumans()}}</small>
+       
+                                                    <span class="ml-auto unread-indicator bg-primary"></span>
+       
+                                                </span>
+                                                <span class="d-flex">
+                                                    <span class="flex d-flex flex-column">
+                                                        <strong>New question on the forum</strong>
+                                                        <span class="text-black-70">
+                                                            @foreach ($forums as $forum)
+                                                                @if ($forum->id==$item->data['forum_id'])
+                                                                    {{$forum->title}}
+                                                                @endif
+                                                            @endforeach
                                                         </span>
-                                                        <span class="flex d-flex flex-column">
-                                                            <strong>Michelle</strong>
-                                                            <span class="text-black-70">Clients loved the new design.</span>
-                                                        </span>
                                                     </span>
+                                                </span>
+                                               </a>
+                                               @elseif($item->data['type']=='reply')
+                                               <a href="{{route('forum.show',$item->data['forum_id'])}}"
+                                                class="list-group-item list-group-item-action unread">
+                                                 <span class="d-flex align-items-center mb-1">
+                                                     <small class="text-muted">{{$item->created_at->diffForHumans()}}</small>
+        
+                                                     <span class="ml-auto unread-indicator bg-primary"></span>
+        
+                                                 </span>
+                                                 <span class="d-flex">
+                                                     <span class="flex d-flex flex-column">
+                                                         <strong> New reply for your question</strong>
+                                                         <span class="text-black-70">
+                                                             @foreach ($forums as $forum)
+                                                                 @if ($forum->id==$item->data['forum_id'])
+                                                                 You have a new reply for your question on <b>{{' '.$forum->title}}</b>
+                                                                 @endif
+                                                             @endforeach
+                                                         </span>
+                                                     </span>
+                                                 </span>
                                                 </a>
-
-                                                <a href="fixed-student-messages.html"
-                                                   class="list-group-item list-group-item-action unread">
-                                                    <span class="d-flex align-items-center mb-1">
-                                                        <small class="text-muted">5 minutes ago</small>
-
-                                                        <span class="ml-auto unread-indicator bg-primary"></span>
-
-                                                    </span>
-                                                    <span class="d-flex">
-                                                        <span class="avatar avatar-xs mr-2">
-                                                            <img src="assets/images/people/110/woman-5.jpg"
-                                                                 alt="people"
-                                                                 class="avatar-img rounded-circle">
-                                                        </span>
-                                                        <span class="flex d-flex flex-column">
-                                                            <strong>Michelle</strong>
-                                                            <span class="text-black-70">🔥 Superb job..</span>
-                                                        </span>
-                                                    </span>
-                                                </a>
-
-                                            </div>
-
-                                            <div class="dropdown-header"><strong>System notifications</strong></div>
-                                            <div class="list-group list-group-flush mb-0">
-
-                                                <a href="fixed-student-messages.html"
-                                                   class="list-group-item list-group-item-action border-left-3 border-left-danger">
-                                                    <span class="d-flex align-items-center mb-1">
-                                                        <small class="text-muted">3 minutes ago</small>
-
-                                                    </span>
-                                                    <span class="d-flex">
-                                                        <span class="avatar avatar-xs mr-2">
-                                                            <span class="avatar-title rounded-circle bg-light">
-                                                                <i class="material-icons font-size-16pt text-danger">account_circle</i>
-                                                            </span>
-                                                        </span>
-                                                        <span class="flex d-flex flex-column">
-
-                                                            <span class="text-black-70">Your profile information has not been synced correctly.</span>
-                                                        </span>
-                                                    </span>
-                                                </a>
-
-                                                <a href="fixed-student-messages.html"
-                                                   class="list-group-item list-group-item-action">
-                                                    <span class="d-flex align-items-center mb-1">
-                                                        <small class="text-muted">5 hours ago</small>
-
-                                                    </span>
-                                                    <span class="d-flex">
-                                                        <span class="avatar avatar-xs mr-2">
-                                                            <span class="avatar-title rounded-circle bg-light">
-                                                                <i class="material-icons font-size-16pt text-success">group_add</i>
-                                                            </span>
-                                                        </span>
-                                                        <span class="flex d-flex flex-column">
-                                                            <strong>Adrian. D</strong>
-                                                            <span class="text-black-70">Wants to join your private group.</span>
-                                                        </span>
-                                                    </span>
-                                                </a>
-
-                                                <a href="fixed-student-messages.html"
-                                                   class="list-group-item list-group-item-action">
-                                                    <span class="d-flex align-items-center mb-1">
-                                                        <small class="text-muted">1 day ago</small>
-
-                                                    </span>
-                                                    <span class="d-flex">
-                                                        <span class="avatar avatar-xs mr-2">
-                                                            <span class="avatar-title rounded-circle bg-light">
-                                                                <i class="material-icons font-size-16pt text-warning">storage</i>
-                                                            </span>
-                                                        </span>
-                                                        <span class="flex d-flex flex-column">
-
-                                                            <span class="text-black-70">Your deploy was successful.</span>
-                                                        </span>
-                                                    </span>
-                                                </a>
-
-                                            </div>
+                                               @else
+                                               <a href="student-messages.html"
+                                                  class="list-group-item list-group-item-action unread">
+                                                   <span class="d-flex align-items-center mb-1">
+                                                       <small class="text-muted">{{$item->created_at->diffForHumans()}}</small>
+       
+                                                       <span class="ml-auto unread-indicator bg-primary"></span>
+       
+                                                   </span>
+                    
+                                               </a>
+                                               @endif
+                                           @empty
+                                               <p>No new notifications</p>
+                                           @endforelse
+                                   
+                                           </div>
                                         </div>
                                     </div>
                                 </li>
@@ -241,23 +200,21 @@
                                     <a class="nav-link dropdown-toggle"
                                        data-toggle="dropdown"
                                        href="#"
-                                       role="button"><img src="{{asset('dashboard/assets/images/people/50/guy-6.jpg')}}"
-                                             alt="Avatar"
-                                             class="rounded-circle"
-                                             width="40"></a>
+                                       role="button"> <img src="{{Auth::user()->photo==null ? asset('Images/default.png') : asset('Images/'.Auth::user()->photo) }}"
+                                       alt="Avatar"
+                                       class="rounded-circle"
+                                       width="40">
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item"
-                                           href="fixed-student-account-edit.html">
-                                            <i class="material-icons">edit</i> Edit Account
-                                        </a>
-                                        <a class="dropdown-item"
-                                           href="fixed-student-profile.html">
-                                            <i class="material-icons">person</i> Public Profile
-                                        </a>
-                                        <a class="dropdown-item"
-                                           href="guest-login.html">
-                                            <i class="material-icons">lock</i> Logout
-                                        </a>
+                                        href="{{route('profile.edit',Auth::user()->id)}}">
+                                         <i class="material-icons">edit</i> Edit Account
+                                     </a>
+                                     <a class="dropdown-item"
+                                     href="{{ route('logout') }}"
+                                     onclick="event.preventDefault();
+                                                   document.getElementById('logout-form').submit();">
+                                         <i class=" material-icons">lock</i> Logout
+                                     </a>
                                     </div>
                                 </li>
                                 <!-- // END User dropdown -->
@@ -290,405 +247,7 @@
         <div class="mdk-drawer js-mdk-drawer"
              id="default-drawer">
             <div class="mdk-drawer__content ">
-                {{-- <div class="sidebar sidebar-left sidebar-dark bg-dark o-hidden"
-                     data-perfect-scrollbar>
-                    <div class="sidebar-p-y">
-                        <div class="sidebar-heading">APPLICATIONS</div>
-                        <ul class="sidebar-menu sm-active-button-bg">
-                            <li class="sidebar-menu-item active">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-student-dashboard.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">account_box</i> Student
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-instructor-dashboard.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">school</i> Instructor
-                                </a>
-                            </li>
-                        </ul>
-                        <!-- Account menu -->
-                        <div class="sidebar-heading">Account</div>
-                        <ul class="sidebar-menu">
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button sidebar-js-collapse"
-                                   data-toggle="collapse"
-                                   href="#account_menu">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">person_outline</i>
-                                    Account
-                                    <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                </a>
-                                <ul class="sidebar-submenu sm-indent collapse"
-                                    id="account_menu">
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="guest-login.html">
-                                            <span class="sidebar-menu-text">Login</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="guest-signup.html">
-                                            <span class="sidebar-menu-text">Sign Up</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="guest-forgot-password.html">
-                                            <span class="sidebar-menu-text">Forgot Password</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-account-edit.html">
-                                            <span class="sidebar-menu-text">Edit Account</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-account-edit-basic.html">
-                                            <span class="sidebar-menu-text">Basic Information</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-account-edit-profile.html">
-                                            <span class="sidebar-menu-text">Profile &amp; Privacy</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-account-billing-subscription.html">
-                                            <span class="sidebar-menu-text">Subscription</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-account-billing-upgrade.html">
-                                            <span class="sidebar-menu-text">Upgrade Account</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-account-billing-payment-information.html">
-                                            <span class="sidebar-menu-text">Payment Information</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-billing.html">
-                                            <span class="sidebar-menu-text">Payment History</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-invoice.html">
-                                            <span class="sidebar-menu-text">Student Invoice</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-instructor-invoice.html">
-                                            <span class="sidebar-menu-text">Instructor Invoice</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-instructor-edit-invoice.html">
-                                            <span class="sidebar-menu-text">Edit Invoice</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   data-toggle="collapse"
-                                   href="#messages_menu">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">comment</i> Messages
-                                    <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                </a>
-                                <ul class="sidebar-submenu sm-indent collapse"
-                                    id="messages_menu">
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-messages.html">
-                                            <span class="sidebar-menu-text">Conversation</span>
-                                            <span class="sidebar-menu-badge badge badge-primary badge-notifications ml-auto">2</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-messages-2.html">
-                                            <span class="sidebar-menu-text">Conversation - 2</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div class="sidebar-heading">Student</div>
-                        <ul class="sidebar-menu sm-active-button-bg">
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-student-browse-courses.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">search</i> Browse Courses
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-student-view-course.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">import_contacts</i> View Course
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-student-take-course.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">class</i> Take Course
-                                    <span class="sidebar-menu-badge badge badge-primary ml-auto">PRO</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-student-take-quiz.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">dvr</i> Take a Quiz
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-student-quiz-results.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">poll</i> Quiz Results
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-student-my-courses.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">school</i> My Courses
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   data-toggle="collapse"
-                                   href="#forum_menu">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">chat_bubble_outline</i>
-                                    Community
-                                    <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                </a>
-                                <ul class="sidebar-submenu sm-indent collapse"
-                                    id="forum_menu">
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-forum.html">
-                                            <span class="sidebar-menu-text">Forum</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-forum-thread.html">
-                                            <span class="sidebar-menu-text">Discussion</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-forum-ask.html">
-                                            <span class="sidebar-menu-text">Ask Question</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-profile.html">
-                                            <span class="sidebar-menu-text">Student Profile - Courses</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-student-profile-posts.html">
-                                            <span class="sidebar-menu-text">Student Profile - Posts</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-instructor-profile.html">
-                                            <span class="sidebar-menu-text">Instructor Profile</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-student-help-center.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">live_help</i> Get Help
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="guest-login.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">lock_open</i> Logout
-                                </a>
-                            </li>
-                        </ul>
-                        <!-- Components menu -->
-                        <div class="sidebar-heading">Components</div>
-                        <ul class="sidebar-menu">
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button sidebar-js-collapse"
-                                   data-toggle="collapse"
-                                   href="#components_menu">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">tune</i>
-                                    Components
-                                    <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                </a>
-                                <ul class="sidebar-submenu sm-indent collapse"
-                                    id="components_menu">
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-avatars.html">
-                                            <span class="sidebar-menu-text">Avatars</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-forms.html">
-                                            <span class="sidebar-menu-text">Forms</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-loaders.html">
-                                            <span class="sidebar-menu-text">Loaders</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-tables.html">
-                                            <span class="sidebar-menu-text">Tables</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-cards.html">
-                                            <span class="sidebar-menu-text">Cards</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-tabs.html">
-                                            <span class="sidebar-menu-text">Tabs</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-icons.html">
-                                            <span class="sidebar-menu-text">Icons</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-buttons.html">
-                                            <span class="sidebar-menu-text">Buttons</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-alerts.html">
-                                            <span class="sidebar-menu-text">Alerts</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-badges.html">
-                                            <span class="sidebar-menu-text">Badges</span>
-                                        </a>
-                                    </li>
-                                    <!-- <li class="sidebar-menu-item">
-        
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-progress.html">
-                                            <span class="sidebar-menu-text">Progress Bars</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-pagination.html">
-                                            <span class="sidebar-menu-text">Pagination</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button sidebar-js-collapse"
-                                   data-toggle="collapse"
-                                   href="#plugins_menu">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">folder</i>
-                                    Plugins
-                                    <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                </a>
-                                <ul class="sidebar-submenu sm-indent collapse"
-                                    id="plugins_menu">
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-charts.html">
-                                            <span class="sidebar-menu-text">Charts</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-drag.html">
-                                            <span class="sidebar-menu-text">Drag &amp; Drop</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-calendar.html">
-                                            <span class="sidebar-menu-text">Calendar</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-nestable.html">
-                                            <span class="sidebar-menu-text">Nestable</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-tree.html">
-                                            <span class="sidebar-menu-text">Tree</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-maps-vector.html">
-                                            <span class="sidebar-menu-text">Vector Maps</span>
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button"
-                                           href="fixed-ui-sweet-alert.html">
-                                            <span class="sidebar-menu-text">Sweet Alert</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <!-- // END Components Menu -->
-
-                        <div class="sidebar-heading">Layout</div>
-                        <ul class="sidebar-menu">
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="student-dashboard.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">dashboard</i> Fluid Layout
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item active">
-                                <a class="sidebar-menu-button"
-                                   href="fixed-student-dashboard.html">
-                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">dashboard</i> Fixed Layout
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div> --}}
+                
                 <div class="sidebar sidebar-left sidebar-dark bg-dark o-hidden"
                 data-perfect-scrollbar>
                <div class="sidebar-p-y">
@@ -730,6 +289,12 @@
                    <!-- Components menu -->
                    <div class="sidebar-heading">Actions</div>
                    <ul class="sidebar-menu">
+                    <li class="sidebar-menu-item">
+                        <a class="sidebar-menu-button"
+                           href="{{route('profile.edit',Auth::user()->id)}}">
+                            <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">edit</i> Edit Profile
+                        </a>
+                    </li>
                        <li class="sidebar-menu-item">
                            <a class="sidebar-menu-button"
                            href="{{ route('logout') }}"

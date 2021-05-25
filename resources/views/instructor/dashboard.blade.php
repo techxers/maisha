@@ -24,8 +24,8 @@
                         <div class="card">
                             <div class="card-header d-flex align-items-center">
                                 <div class="flex">
-                                    <h4 class="card-title">Courses</h4>
-                                    <p class="card-subtitle">Your 5 Latest Added Courses</p>
+                                    <h4 class="card-title">Course Views</h4>
+                                    <p class="card-subtitle">Views for my courses</p>
                                 </div>
                             </div>
                             <div data-toggle="lists"
@@ -41,12 +41,12 @@
                                 <table class="table table-nowrap m-0">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th style="margin-right: -10px;">Course</th>
-                                            <th>Date Added</th>
+                                            <th style="margin-right: -10px;">Courses</th>
+                                            <th style="margin-right: -10px;">Views</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list">
-                                        @foreach ($ins_courses->take(5) as $item)
+                                        @forelse ($ins_courses as $item)
                                             <tr>
                                                 <td>
                                                     <div class="media align-items-center">
@@ -62,13 +62,52 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="text-right">
-                                                    <small class="text-muted text-uppercase js-lists-values-date">{{$item->created_at}}</small>
+
+                                                <td class="text-center">
+                                                    <small class="text-black text-uppercase js-lists-values-date">{{$myviews->where('course_id',$item->id)->count()}}</small>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                            @empty
+                                                <p>No courses to show</p>
+                                            @endforelse
                                     </tbody>
                                 </table>
+                                {{$ins_courses->links()}}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-center">
+                                    <div class="flex">
+                                        <h4 class="card-title">My Quizzes</h4>
+                                    </div>
+                                    <a class="btn btn-sm btn-primary"
+                                       >Attempts</a>
+                                </div>
+                                <ul class="list-group list-group-fit mb-0">
+                                    @forelse ($attempts as $item=>$attempt)
+                                    @foreach ($quizzes as $quiz)
+                                    @if($quiz->id==$attempt)
+                                    <li class="list-group-item">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <a href="{{route('quiz.edit',$quiz->id)}}"
+                                                class="text-body"><strong>{{$quiz->title}}</strong></a>
+                                            </div>
+                                            <div class="media-right">
+                                                <div class="text-center">
+                                                    <span class="badge badge-pill badge-primary">{{$allquizzes->where('quiz_id',$attempt)->count()}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    @endif
+                                    @endforeach
+                                     
+                                    @empty
+                                    <p class="m-1">No quizzes to show</p>
+                                    @endforelse
+                                </ul>
                             </div>
                         </div>
                         @else
@@ -76,7 +115,7 @@
                             <div class="card-header d-flex align-items-center">
                                 <div class="flex">
                                     <h4 class="card-title">Courses</h4>
-                                    <p class="card-subtitle">Latest Added Courses</p>
+                                    <p class="card-subtitle">Top 5 Courses</p>
                                 </div>
                             </div>
                             <div data-toggle="lists"
@@ -124,41 +163,7 @@
                         </div>
                         @endif
                     </div>
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-header d-flex align-items-center">
-                                <div class="flex">
-                                    <h4 class="card-title"> Course Views</h4>
-                                </div>
-                                <a class="btn btn-sm btn-primary"
-                                   >No of Views</a>
-                            </div>
-                            <ul class="list-group list-group-fit mb-0">
-                                @forelse ($ins_courses->take(5) as $ins)
-                                @foreach ($enrolled->take(5) as $item)
-                                @if($ins->id==$item->course_id)
-                                <li class="list-group-item">
-                                    <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <a href="{{route('editcourse',$ins->id)}}"
-                                            class="text-body"><strong>{{$ins->title}}</strong></a>
-                                        </div>
-                                        <div class="media-right">
-                                            <div class="text-center">
-                                                <span class="badge badge-pill badge-primary">{{$enrolled->where('course_id',$item->course_id)->count()}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                @endif
-                                @endforeach
-                                 
-                                @empty
-                                <p class="m-1">You have not added any courses recently</p>
-                                @endforelse
-                            </ul>
-                        </div>
-                    </div>
+                  
                 </div>
             </div>
 
