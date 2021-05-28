@@ -1,7 +1,7 @@
-@extends('layouts.base2')
+@extends('layouts.base')
 
 @section('title')
-    <title> View Profile</title>
+    <title> View Instructor Profile</title>
 @endsection
 @section('content')
 <div class="mdk-header-layout__content">
@@ -11,10 +11,10 @@
          class="mdk-drawer-layout js-mdk-drawer-layout">
         <div class="mdk-drawer-layout__content page ">
 
-            <div class="container-fluid page__container">
+            <div class="container page__container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Profile</li>
+                    <li class="breadcrumb-item active">Instructor Profile</li>
                 </ol>
                 @if(session('success'))
                 <div class="alert alert-light alert-dismissible border-1 border-left-3 border-left-success" role="alert">
@@ -25,7 +25,7 @@
                 </div>
                 @endif
                 <div class="text-center">
-                    <a href="#"><img src="{{$user->photo==null ? asset('Images/default.png') : asset('Images/'.$user->photo)}}"
+                    <a href="#"><img src="assets/images/people/110/guy-8.jpg"
                              alt=""
                              class="rounded-circle"></a>
                     <h1 class="h2 mb-0 mt-1">{{$user->name}}</h1>
@@ -55,7 +55,7 @@
                         <div class="card-header">
                             <div class="media align-items-center">
                                 <div class="media-left">
-                                    <a href="{{route('editcourse',$course->id)}}">
+                                    <a href="{{route('viewcourse',$course->id)}}">
                                         <img src="{{asset('Images/'.$course->thumbnail)}}"
                                              alt="Card image cap"
                                              width="100"
@@ -63,7 +63,7 @@
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="card-title mb-0"><a href="{{route('editcourse',$course->id)}}">{{$course->title}}</a></h4>
+                                    <h4 class="card-title mb-0"><a href="{{route('viewcourse',$course->id)}}">{{$course->title}}</a></h4>
                                    <small>{{$course->category}}</small>
                                 </div>
                             </div>
@@ -76,8 +76,4 @@
             </div>
 
         </div>
-
-    
-
-    
 @endsection

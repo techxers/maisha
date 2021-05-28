@@ -112,7 +112,14 @@ class MyQuizController extends Controller
      */
     public function edit($id)
     {
-        //
+    
+        
+       $restart= MyQuiz::where('user_id',Auth::user()->id)->where('quiz_id',$id)->delete();
+
+        if($restart)
+        {
+            return redirect()->route('myquiz.create',$id);
+        }
     }
 
     /**

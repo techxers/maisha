@@ -135,7 +135,7 @@ class DashboardController extends Controller
         $views=View::all();
         $quiz=Quiz::where('course_id',$id)->first();
         $show_quiz=false;
-        if($quiz)
+        if($quiz && $quiz->questions->count()>0)
         {
             $show_quiz=true;
         }
@@ -197,6 +197,34 @@ class DashboardController extends Controller
         }
         $user=User::findOrFail($id);
         return view('instructor.profile');
+    }
+    public function viewprofile($id)
+    {
+        $user=User::findOrFail($id);
+        if(Auth::user()->role_id==2 || Auth::user()->role_id==0)
+        {
+            if($user->role_id==2 || $user->role_id==0)
+            {
+            
+                return view('users.show',compact('user'));
+            }
+            else if($user->role_id==1)
+            {
+                return view('users.trainee_profile',compact('user'));
+            }
+        }
+        else if(Auth::user()->role_id==1)
+        {
+            if($user->role_id==2 || $user->role_id==0)
+            {
+            
+                return view('dashboard.instructor_profile',compact('user'));
+            }
+            else if($user->role_id==1)
+            {
+                return view('dashboard.public_profile',compact('user'));
+            }
+        }
     }
     public function update($id,Request $request)
     {

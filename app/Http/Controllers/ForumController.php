@@ -29,13 +29,21 @@ class ForumController extends Controller
         $trainees=User::all()->where('role_id',1);
         $courses=Course::all();
         $myforums=Forum::where('user_id',Auth::user()->id)->paginate(5);
-        $forums=Forum::where('status','approved')->paginate(5);
+        $forums=Forum::paginate(5);
 
         return view('forums.index',compact('instructors','courses','forums','myforums','trainees'));
         }
         else if(Auth::user()->role_id==2)
         {
             $courses=Course::all()->where('user_id',Auth::user()->id);
+            $trainees=User::all()->where('role_id',1);
+            $general=Forum::where('course_id',0)->paginate(5);
+            $forums=Forum::where('course_id','!=',0)->paginate(5);
+            return view('instructor_forums.index',compact('courses','general','forums','trainees'));
+        }
+        else if(Auth::user()->role_id==0)
+        {
+            $courses=Course::all();
             $trainees=User::all()->where('role_id',1);
             $general=Forum::where('course_id',0)->paginate(5);
             $forums=Forum::where('course_id','!=',0)->paginate(5);
@@ -152,6 +160,9 @@ class ForumController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $forum=Forum::findOrFail($id);
+        $forum->delete();
+
+        return redirect()->route('forums')->with('success','Question removed successfully');
     }
 }

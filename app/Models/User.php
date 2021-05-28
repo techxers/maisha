@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -46,4 +46,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function forums()
+    {
+        return $this->hasMany(Forum::class);
+    }
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+    public function views()
+    {
+        return $this->hasMany(View::class);
+    }
+    public function myquizzes()
+    {
+        return $this->hasMany(MyQuiz::class);
+    }
 }

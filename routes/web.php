@@ -14,7 +14,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MyCoursesController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\SubcategoryController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\MyQuiz;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,25 +52,41 @@ Route::get('/contact', function () {
 Route::get('/instructor', function () {
     return view('auth.instructor');
 })->name('instructor');
+
+//Verify email
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
+
 //Trainee Routes
-Route::get('/courses', [DashboardController::class,'courses'])->name('courses');
-Route::get('/viewcourse/{id}', [DashboardController::class,'viewcourse'])->name('viewcourse');
-Route::get('/mycourses',[DashboardController::class,'mycourses'])->name('mycourses');
+Route::middleware('verified')->group(function(){// Ensures user email is verified before logging in
+    Route::get('/courses', [DashboardController::class,'courses'])->name('courses');
+    Route::get('/viewcourse/{id}', [DashboardController::class,'viewcourse'])->name('viewcourse');
+    Route::get('/mycourses',[DashboardController::class,'mycourses'])->name('mycourses');
 
-Route::get('/forums',[ForumController::class,'index'])->name('forums');
-Route::get('/create/forum',[ForumController::class,'create'])->name('forum.create');
-Route::post('/forum/store',[ForumController::class,'store'])->name('forum.store');
-Route::get('/forum/show/{id}',[ForumController::class,'show'])->name('forum.show');
-Route::post('/forum/update/{id}',[ForumController::class,'update'])->name('forum.update');
+    Route::get('/forums',[ForumController::class,'index'])->name('forums');
+    Route::get('/create/forum',[ForumController::class,'create'])->name('forum.create');
+    Route::post('/forum/store',[ForumController::class,'store'])->name('forum.store');
+    Route::get('/forum/show/{id}',[ForumController::class,'show'])->name('forum.show');
+    Route::post('/forum/update/{id}',[ForumController::class,'update'])->name('forum.update');
 
-
-Route::get('/myquizresults', [MyQuizController::class,'index'])->name('quizresults');
-Route::get('/myquiz/{id}', [MyQuizController::class,'create'])->name('myquiz.create');
-Route::post('/myquiz/submit/{id}', [MyQuizController::class,'store'])->name('myquiz.store');
-Route::get('/myquiz/view/{id}',[MyQuizController::class,'show'])->name('myquiz.show');
-
+    Route::get('/myquizresults', [MyQuizController::class,'index'])->name('quizresults');
+    Route::get('/myquiz/{id}', [MyQuizController::class,'create'])->name('myquiz.create');
+    Route::post('/myquiz/submit/{id}', [MyQuizController::class,'store'])->name('myquiz.store');
+    Route::get('/myquiz/view/{id}',[MyQuizController::class,'show'])->name('myquiz.show');
+    Route::get('/myquiz/restart/{id}',[MyQuizController::class,'edit'])->name('myquiz.restart');
 // Instructor Routes
-Route::middleware('status')->group(function(){
+Route::middleware('status')->group(function(){//Checks whether instructor profile has been updated
     Route::get('/user', [DashboardController::class,'index'])->name('dashboard');
     Route::get('/coursemanager',[DashboardController::class,'coursemanager'])->name('coursemanager');
     Route::get('/create/course',[CourseController::class,'create'])->name('createcourse');
@@ -111,23 +129,27 @@ Route::middleware('status')->group(function(){
 
     
 });
-Route::get('/profile/{id}',[DashboardController::class,'profile'])->name('profile.edit');
-Route::post('/profile/{id}',[DashboardController::class,'update'])->name('profile.update');
+    Route::get('/profile/{id}',[DashboardController::class,'profile'])->name('profile.edit');
+    Route::post('/profile/{id}',[DashboardController::class,'update'])->name('profile.update');
+    Route::get('/viewprofile/{id}',[DashboardController::class,'viewprofile'])->name('profile.show');
 
-Route::get('/inactive', [DashboardController::class,'inactive'])->name('inactive');
+    Route::get('/inactive', [DashboardController::class,'inactive'])->name('inactive');// Returns when instructor profile has not been approved
 
 //Admin Routes
-Route::get('/instructors', [InstructorController::class,'index'])->name('instructors');
-Route::get('/instructor/{id}/show', [InstructorController::class,'show'])->name('show.instructors');
-Route::get('/instructor/{id}/certificate', [InstructorController::class,'certificate'])->name('certificate');
-Route::get('/instructor/{id}/activate', [InstructorController::class,'activate'])->name('activate');
-Route::get('/instructor/{id}/deactivate', [InstructorController::class,'deactivate'])->name('deactivate');
+    Route::get('/instructors', [InstructorController::class,'index'])->name('instructors');
+    Route::get('/instructor/{id}/show', [InstructorController::class,'show'])->name('show.instructors');
+    Route::get('/instructor/{id}/certificate', [InstructorController::class,'certificate'])->name('certificate');
+    Route::get('/instructor/{id}/activate', [InstructorController::class,'activate'])->name('activate');
+    Route::get('/instructor/{id}/deactivate', [InstructorController::class,'deactivate'])->name('deactivate');
 
-Route::get('/courses/{id}/approve',[CourseController::class,'approve'])->name('approve');
-Route::get('/courses/{id}/disapprove',[CourseController::class,'disapprove'])->name('disapprove');
+    Route::get('/courses/{id}/approve',[CourseController::class,'approve'])->name('approve');
+    Route::get('/courses/{id}/disapprove',[CourseController::class,'disapprove'])->name('disapprove');
 
-Route::get('/quiz/{id}/approve',[QuizController::class,'approve'])->name('quiz.approve');
-Route::get('/quiz/{id}/disapprove',[QuizController::class,'disapprove'])->name('quiz.disapprove');
+    Route::get('/quiz/{id}/approve',[QuizController::class,'approve'])->name('quiz.approve');
+    Route::get('/quiz/{id}/disapprove',[QuizController::class,'disapprove'])->name('quiz.disapprove');
+
+    Route::get('/forum/{id}/delete',[ForumController::class,'destroy'])->name('forum.delete');
+});
 
 Auth::routes();
 

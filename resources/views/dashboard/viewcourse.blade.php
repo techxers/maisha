@@ -117,6 +117,7 @@
                                 @endif
                                
                                 @cannot('admin')
+                                @if(Auth::user()->myquizzes->where('quiz_id',$quiz->id)->count()==0)
                                 @if($show_quiz==true&&$quiz->status=='approved')
                                 <div class="card">
                                         <p>
@@ -128,6 +129,17 @@
                                     </div>
                                 </div>
                                 @endif
+                                @else
+                                <div class="card">
+                                    <p>
+                                        <div class="media-right">
+                                            <a href="{{route('myquiz.show',$quiz->id)}}" class="btn btn-success" >View Quiz</a>
+                                        </div> 
+                                        You have attempted this quiz
+                                    </p>
+                                </div>
+                                </div>
+                                @endif
                                 @endcannot
                                
                                 <div class="card">
@@ -137,7 +149,7 @@
                     
                                             </div>
                                             <div class="media-body">
-                                                <h4 class="card-title"><a href="{{route('show.instructors',$instructor->id)}}">{{$instructor->name}}</a></h4>
+                                                <h4 class="card-title"><a href="{{route('profile.show',$instructor->id)}}">{{$instructor->name}}</a></h4>
                                                 <p class="card-subtitle">Instructor</p>
                                             </div>
                                         </div>

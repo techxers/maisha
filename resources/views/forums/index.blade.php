@@ -61,20 +61,17 @@
 
                             <ul class="list-group list-group-fit">
                                 @forelse($forums as $forum)
-                                @foreach ($trainee as $item)
-                                    
-                                @if($forum->user_id==$item->id && $item->id!=Auth::user()->id)
                                 <li class="list-group-item forum-thread">
                                     <div class="media align-items-center">
                                         <div class="media-left">
                                             <div class="forum-icon-wrapper">
-                                                <a href="student-forum-thread.html"
+                                                <a href="{{route('forum.show',$forum->id)}}"
                                                    class="forum-thread-icon">
                                                     <i class="material-icons">description</i>
                                                 </a>
-                                                <a href="student-profile.html"
+                                                <a href="{{route('profile.show',$forum->user->id)}}"
                                                    class="forum-thread-user">
-                                                    <img src="assets/images/people/50/guy-1.jpg"
+                                                    <img src="{{$forum->user->photo==null ? asset('Images/default.png') : asset('Images/'.$forum->user->photo) }}"
                                                          alt=""
                                                          width="20"
                                                          class="rounded-circle">
@@ -83,17 +80,15 @@
                                         </div>
                                         <div class="media-body">
                                             <div class="d-flex align-items-center">
-                                                <a href="student-profile.html"
-                                                   class="text-body"><strong>{{$item->name}}</strong></a>
+                                                <a href="{{route('profile.show',$forum->user->id)}}"
+                                                   class="text-body"><strong>{{$forum->user->name}}</strong></a>
                                                 <small class="ml-auto text-muted">{{$forum->created_at->diffForHumans()}}</small>
                                             </div>
                                             <a class="text-black-70"
-                                               href="student-forum-thread.html">{{$forum->title}}</a>
+                                               href="{{route('forum.show',$forum->id)}}">{{$forum->title}}</a>
                                         </div>
                                     </div>
                                 </li>
-                                @endif
-                                @endforeach
                                 @empty
                                 <p class="m-3 text-black-70">There are no recent questions on the Forum</p>
                                 @endforelse
@@ -118,18 +113,19 @@
                             <ul class="list-group list-group-fit">
                                 @forelse ($myforums as $item)
                                 @foreach ($courses as $course)
-                                @if ($item->id==$course->id)
+                                
+                                @if ($item->course_id==$course->id)
                                 <li class="list-group-item forum-thread">
                                     <div class="media align-items-center">
                                         <div class="media-left">
                                             <div class="forum-icon-wrapper">
-                                                <a href="student-forum-thread.html"
+                                                <a href="{{route('forum.show',$item->id)}}"
                                                    class="forum-thread-icon">
                                                     <i class="material-icons">description</i>
                                                 </a>
                                                 <a href="student-profile.html"
                                                    class="forum-thread-user">
-                                                    <img src="assets/images/people/50/guy-1.jpg"
+                                                    <img src="{{Auth::user()->photo==null ? asset('Images/default.png') : asset('Images/'.Auth::user()->photo) }}"
                                                          alt=""
                                                          width="20"
                                                          class="rounded-circle">
@@ -166,13 +162,13 @@
                         <div class="mb-4">
                             @forelse ($instructors as $item)
                             <div class="d-flex align-items-center mb-2">
-                                <a href="student-profile.html"
+                                <a href="{{route('profile.show',$item->id)}}"
                                    class="avatar avatar-sm mr-3">
-                                    {{-- <img src="assets/images/people/50/guy-1.jpg"
+                                     <img src="{{$item->photo==null ? asset('Images/default.png') : asset('Images/'.$item->photo) }}"
                                          alt=""
-                                         class="avatar-img rounded-circle"> --}}
+                                         class="avatar-img rounded-circle">
                                 </a>
-                                <a href="student-profile.html"
+                                <a href="{{route('forum.show',$item->id)}}"
                                    class="flex mr-2 text-body"><strong>{{$item->name}}</strong></a>
                                 <span class="text-black-70 mr-2">{{$courses->where('user_id',$item->id)->count()}} Courses</span>
                                 <i class="text-muted material-icons font-size-16pt">opacity</i>

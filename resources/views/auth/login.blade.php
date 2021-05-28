@@ -30,14 +30,21 @@
                   </div>
                   <div class="col-lg-12">
                     <fieldset>
-                      <input type="password" name="password" id="" placeholder="Your assword">
+                      <input type="password" name="password" id="" placeholder="Your password">
                     </fieldset>
                   </div>
                   <div class="col-lg-12">
                     <fieldset>
-                      <button type="submit" id="form-submit" class="main-button ">Login</button>
+                      <button type="submit" id="form-submit" class="main-button ">Login</button> 
+                    </fieldset>
+                  
+                  </div>
+                  <div class="col-lg-12 mt-3">
+                    <fieldset>
+                      Not registered? <span><a href="{{route('register')}}">Sign up</a></span>   <a href="{{route('password.request')}}" class="ml-5">Forgot Password?</a>
                     </fieldset>
                   </div>
+                  
                 </div>
                 <div class="contact-dec">
                   <img src="{{asset('test/assets/images/contact-decoration.png')}}" alt="contact">

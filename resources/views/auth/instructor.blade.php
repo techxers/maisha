@@ -137,7 +137,11 @@
                       <button type="submit" id="form-submit" class="main-button ">Login</button>
                     </fieldset>
                   </div>
-            
+                  <div class="col-lg-12 mt-3">
+                    <fieldset>
+                      Already registered? <span><a href="{{route('login')}}">Sign in</a></span>   
+                    </fieldset>
+                  </div>
                 </div>
                 <div class="contact-dec">
                   <img src="{{asset('test/assets/images/contact-decoration.png')}}" alt="contact">

@@ -175,8 +175,6 @@
                                     href="{{route('profile.edit',Auth::user()->id)}}">
                                      <i class="material-icons">edit</i> Edit Account
                                  </a>
-                                
-                                
                                  <a class="dropdown-item"
                                  href="{{ route('logout') }}"
                                  onclick="event.preventDefault();
@@ -305,6 +303,12 @@
                                                 <a class="sidebar-menu-button"
                                                    href="{{route('quizzes')}}">
                                                     <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">help</i> Quiz Manager
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                   href="{{route('forums')}}">
+                                                    <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">message</i> Forum
                                                 </a>
                                             </li>
                                             

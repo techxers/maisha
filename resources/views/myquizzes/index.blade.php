@@ -13,7 +13,10 @@
         <div class="mdk-drawer-layout__content page ">
 
             <div class="container page__container">
-              
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item active">Quizzes Result</li>
+                </ol>
         
                 <div class="card">
                     <div class="card-header">

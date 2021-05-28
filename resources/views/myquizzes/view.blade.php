@@ -15,6 +15,7 @@
             <div class="container page__container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('quizresults')}}">Quiz Results</a></li>
                     <li class="breadcrumb-item active">View Quiz Results</li>
                 </ol>
                 <div class="media mb-headings align-items-center">
@@ -55,6 +56,10 @@
                                 <span class="text-muted-light">Fail</span>
                             @endif
                             
+                        </div>
+                        <div class="media-right">
+                            <a href="{{route('myquiz.restart',$quiz->id)}}"
+                               class="btn btn-primary">Restart <i class="material-icons btn__icon--right">refresh</i></a>
                         </div>
                     </div>
                 </div>
