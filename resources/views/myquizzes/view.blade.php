@@ -68,6 +68,7 @@
                         <h4 class="card-title">Questions</h4>
                     </div>
                     <ul class="list-group list-group-fit mb-0">
+                        <p style="display: none">{{$i=1}}</p>
                     @foreach ($results as $item)
                         @foreach ($questions as $que)
                     
@@ -75,7 +76,7 @@
                         <li class="list-group-item">
                             <div class="media">
                                 <div class="media-left">
-                                    <div class="text-muted-light">{{$que->id-$questions->first()->id + 1}}</div>
+                                    <div class="text-muted-light">{{$i++}}</div>
                                 </div>
                                 <div class="media-body">{{$que->question}}</div>
                                 @if ($item->result=='correct')

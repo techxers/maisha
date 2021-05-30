@@ -59,7 +59,7 @@
                   </div>
                   <div class="col-lg-12">
                     <fieldset>
-                      <button type="submit" id="form-submit" class="main-button ">Login</button>
+                      <button type="submit" id="form-submit" class="main-button ">Register</button>
                     </fieldset>
                   </div>
                   <div class="col-lg-12 mt-3">

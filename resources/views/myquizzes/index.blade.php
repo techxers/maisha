@@ -33,6 +33,7 @@
                     </div>
 
                     <ul class="list-group list-group-fit mb-0">
+                        
                         @forelse ($myquizzes as $key=>$value)
                         @foreach ($quizzes as $item)
                         @if($value==$item->id)
