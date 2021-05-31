@@ -23,5 +23,10 @@
         "vue": "^2.5.17",
         "vue-loader": "^15.9.5",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "jplayer": "^2.9.2",
+        "video.js": "^7.12.3",
+        "videojs-sublime-skin": "^1.0.3"
     }
 }

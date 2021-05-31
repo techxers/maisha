@@ -53,7 +53,7 @@ Route::get('/instructor', function () {
     return view('auth.instructor');
 })->name('instructor');
 
-//Verify email
+//Verify email routes
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect('/user');
@@ -127,8 +127,8 @@ Route::middleware('status')->group(function(){//Checks whether instructor profil
     Route::get('/edit/question/{id}',[QuestionController::class,'edit'])->name('question.edit');
     Route::post('/update/question/{id}',[QuestionController::class,'update'])->name('question.update');
 
-    
 });
+   //Shared Routes
     Route::get('/profile/{id}',[DashboardController::class,'profile'])->name('profile.edit');
     Route::post('/profile/{id}',[DashboardController::class,'update'])->name('profile.update');
     Route::get('/viewprofile/{id}',[DashboardController::class,'viewprofile'])->name('profile.show');
@@ -137,19 +137,21 @@ Route::middleware('status')->group(function(){//Checks whether instructor profil
 
     Route::get('/notifications',[DashboardController::class,'markread'])->name('notifications.markread');
 //Admin Routes
-    Route::get('/instructors', [InstructorController::class,'index'])->name('instructors');
-    Route::get('/instructor/{id}/show', [InstructorController::class,'show'])->name('show.instructors');
-    Route::get('/instructor/{id}/certificate', [InstructorController::class,'certificate'])->name('certificate');
-    Route::get('/instructor/{id}/activate', [InstructorController::class,'activate'])->name('activate');
-    Route::get('/instructor/{id}/deactivate', [InstructorController::class,'deactivate'])->name('deactivate');
+    Route::middleware(['admin'])->group(function(){// Ensures user is an admin before accessing any of these routes
+        Route::get('/instructors', [InstructorController::class,'index'])->name('instructors');
+        Route::get('/instructor/{id}/show', [InstructorController::class,'show'])->name('show.instructors');
+        Route::get('/instructor/{id}/certificate', [InstructorController::class,'certificate'])->name('certificate');
+        Route::get('/instructor/{id}/activate', [InstructorController::class,'activate'])->name('activate');
+        Route::get('/instructor/{id}/deactivate', [InstructorController::class,'deactivate'])->name('deactivate');
 
-    Route::get('/courses/{id}/approve',[CourseController::class,'approve'])->name('approve');
-    Route::get('/courses/{id}/disapprove',[CourseController::class,'disapprove'])->name('disapprove');
+        Route::get('/courses/{id}/approve',[CourseController::class,'approve'])->name('approve');
+        Route::get('/courses/{id}/disapprove',[CourseController::class,'disapprove'])->name('disapprove');
 
-    Route::get('/quiz/{id}/approve',[QuizController::class,'approve'])->name('quiz.approve');
-    Route::get('/quiz/{id}/disapprove',[QuizController::class,'disapprove'])->name('quiz.disapprove');
+        Route::get('/quiz/{id}/approve',[QuizController::class,'approve'])->name('quiz.approve');
+        Route::get('/quiz/{id}/disapprove',[QuizController::class,'disapprove'])->name('quiz.disapprove');
 
-    Route::get('/forum/{id}/delete',[ForumController::class,'destroy'])->name('forum.delete');
+        Route::get('/forum/{id}/delete',[ForumController::class,'destroy'])->name('forum.delete');
+    });
 });
 
 Auth::routes();
