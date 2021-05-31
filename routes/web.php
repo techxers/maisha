@@ -135,6 +135,7 @@ Route::middleware('status')->group(function(){//Checks whether instructor profil
 
     Route::get('/inactive', [DashboardController::class,'inactive'])->name('inactive');// Returns when instructor profile has not been approved
 
+    Route::get('/notifications',[DashboardController::class,'markread'])->name('notifications.markread');
 //Admin Routes
     Route::get('/instructors', [InstructorController::class,'index'])->name('instructors');
     Route::get('/instructor/{id}/show', [InstructorController::class,'show'])->name('show.instructors');

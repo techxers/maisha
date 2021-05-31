@@ -15,7 +15,11 @@ class Course extends Model
     }
     public function views()
     {
-        return $this->morphToMany(View::class, 'course_id');
+        return $this->hasMany(View::class);
+    }
+    public function forums()
+    {
+        return $this->hasMany(Forum::class);
     }
 }
 

@@ -21,8 +21,8 @@
 
             <div class="container-fluid page__container">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="instructor-dashboard.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="instructor-courses.html">Courses</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('coursemanager')}}">Courses</a></li>
                     <li class="breadcrumb-item active">Edit course</li>
                 </ol>
                 <div class="media align-items-center mb-headings">
@@ -97,24 +97,24 @@
                                        class="btn btn-primary">Add Video <i class="material-icons">add</i></a></p>
                                 <div class="nestable"
                                      id="nestable-handles-primary">
-                                    <ul class="nestable-list">
+                                    <ul class="nestable-list" style="list-style: none">
                                         @forelse ($videos as $video)
-                                        <li class="nestable-item nestable-item-handle"data-id="2">
+                                        <li class="nestable-item nestable-item-handle" data-id="2">
                             
                                              <div class="nestable-content">
                                                 <div class="media align-items-center">
-                                                    {{-- <div class="media-left">
+                                                     <div class="media-left">
                                                         <img src="{{asset('Images/'.$video->thumbnail)}}"
                                                             alt=""
                                                             width="100"
                                                             class="rounded">
-                                                    </div> --}}
+                                                    </div>
                                                     
                                                     <div class="media-body">
                                                         <h5 class="card-title h6 mb-0">
-                                                            <a href="{{route('video.edit',$video->id)}}">{{$video->title}}</a> <span> {{$views->where('video_id',$video->id)->count()}} Views </span>
+                                                            <a href="{{route('video.edit',$video->id)}}">{{$video->title}}</a> 
                                                         </h5>
-                                                        
+                                                        <small class="text-muted">{{$views->where('video_id',$video->id)->count()}} Views</small>
                                                     </div>
                                                     <div class="media-right">
                                                         <a href="{{route('video.edit',$video->id)}}"

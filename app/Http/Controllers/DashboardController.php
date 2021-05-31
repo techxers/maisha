@@ -50,8 +50,12 @@ class DashboardController extends Controller
         }
         else if($user->role_id==0)
         {
-            $ins_courses=Course::all();
-            return view('instructor.dashboard',compact('courses','ins_courses','enrolled'));
+            $views=View::all()->pluck('course_id');
+            $ins_courses=Course::withCount('views')->orderBy('views_count','DESC')->get();
+            //dd( $ins_courses);
+            $forums=Forum::orderBy('created_at','DESC')->get();
+
+            return view('instructor.dashboard',compact('courses','ins_courses','enrolled','forums'));
         }
         else if($user->role_id==1){
             $courses=Course::where('status','active')->paginate(10);
@@ -270,6 +274,13 @@ class DashboardController extends Controller
 
 
         return redirect()->back()->with('success','Profile updated successfully');
+    }
+    public function markread()
+    {
+        $user=Auth::user();
+        $user->notifications->markAsRead();
+
+        return redirect()->back();
     }
 
 }

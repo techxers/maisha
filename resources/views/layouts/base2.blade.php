@@ -103,7 +103,7 @@
                              <div class="dropdown-menu dropdown-menu-right">
                                  <div data-perfect-scrollbar
                                       class="position-relative">
-                                     <div class="dropdown-header"><strong>New Notifications</strong></div>
+                                     <div class="dropdown-header"><strong><a href="{{route('notifications.markread')}}">Mark All Read</a> </strong></div>
                                      
                                      <div class="list-group list-group-flush mb-0">
                                     @forelse (Auth::user()->unreadNotifications as $item)
@@ -131,27 +131,17 @@
                                              </span>
                                          </span>
                                         </a>
-                                        @else
-                                        <a href="student-messages.html"
-                                           class="list-group-item list-group-item-action unread">
-                                            <span class="d-flex align-items-center mb-1">
-                                                <small class="text-muted">{{$item->created_at->diffForHumans()}}</small>
-
-                                                <span class="ml-auto unread-indicator bg-primary"></span>
-
-                                            </span>
-                                            <span class="d-flex">
-                                                <span class="flex d-flex flex-column">
-                                                    <strong></strong>
-                                                    <span class="text-black-70">Clients loved the new design.</span>
-                                                </span>
-                                            </span>
-                                        </a>
                                         @endif
                                     @empty
-                                        <p>No new notifications</p>
+                                    <a href="#"
+                                    class="list-group-item list-group-item-action unread">
+                                     <span class="d-flex align-items-center mb-1">
+                                         <small class="text-muted"></small>
+                                         No new notifications
+                                         <span class="ml-auto unread-indicator bg-primary"></span>
+                                     </span>
+                                 </a>
                                     @endforelse
-                            
                                     </div>
                                  </div>
                              </div>
@@ -167,8 +157,6 @@
                                       alt="Avatar"
                                       class="rounded-circle"
                                       width="40">
-                                    
-                                    
                                     </a>
                              <div class="dropdown-menu dropdown-menu-right">
                                  <a class="dropdown-item"

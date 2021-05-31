@@ -98,7 +98,7 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th style="margin-right: -10px;">Course</th>
-                                            <th>Date Added</th>
+                                            <th>Number of Views</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list">
@@ -119,7 +119,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right">
-                                                    <small class="text-muted text-uppercase js-lists-values-date">{{$item->created_at}}</small>
+                                                    <small class="text-uppercase js-lists-values-date mr-5">{{$item->views->count()}}</small>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -127,6 +127,7 @@
                                 </table>
                             </div>
                         </div> 
+                        
                         @endif
                     </div>
                     @if (Auth::user()->role_id==2)
@@ -163,6 +164,45 @@
                                 <p class="m-1">No quizzes to show</p>
                                 @endforelse
                             </ul>
+                        </div>
+                    </div>
+                    @else
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center">
+                                <div class="flex">
+                                    <h4 class="card-title">Forum</h4>
+                                    <p class="card-subtitle">Latest Questions</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                @forelse ($forums->take(4) as $item)
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="{{route('profile.show',$item->user->id)}}"
+                                           class="avatar avatar-sm">
+                                            <img src="{{$item->user->photo!=null ? asset('Images/'.$item->user->photo) :  asset('Images/default.png')}}"
+                                                 alt="Guy"
+                                                 class="avatar-img rounded-circle">
+                                        </a>
+                                    </div>
+                                    <div class="media-body d-flex flex-column">
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{route('profile.show',$item->user->id)}}"
+                                               class="text-body"><strong>{{$item->user->name}}</strong></a>
+                                            <small class="ml-auto text-muted">{{$item->created_at->diffForHumans()}}</small><br>
+                                        </div>
+                                        <span class="text-muted">on <a href="{{route('forum.show',$item->id)}}"
+                                               class="text-black-50"
+                                               style="text-decoration: underline;">{{$item->title}}</a></span>
+                                        <p class="mt-1 mb-0 text-black-70">{{$item->description}}</p>
+                                    </div>
+                                </div>
+                                @empty
+                                    
+                                @endforelse
+                               
+                            </div>
                         </div>
                     </div>
                     @endif

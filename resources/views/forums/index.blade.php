@@ -39,16 +39,19 @@
                                 @endforeach
                             </div>
                         @endif
-                        <div class="flex search-form form-control-rounded search-form--light mb-2"
-                        style="min-width: 200px;">
-                       <input type="text"
-                              class="form-control"
-                              placeholder="Search discussions"
-                              id="searchSample02">
-                       <button class="btn pr-3"
-                               type="button"
-                               role="button"><i class="material-icons">search</i></button>
-                   </div>
+                        <form action="{{route('forums')}}" method="get">
+                            <div class="flex search-form form-control-rounded search-form--light mb-2"
+                                style="min-width: 200px;">
+                            
+                                    <input type="text" name="value" value="{{$value}}"
+                                    class="form-control"
+                                    placeholder="Search discussions"
+                                    id="searchSample02">
+                                <button class="btn pr-3"
+                                    type="submit"
+                                    role="button"><i class="material-icons">search</i></button>
+                            </div>
+                        </form>
                         <div class="card">
                             <div class="card-header">
                                 <div class="media align-items-center">

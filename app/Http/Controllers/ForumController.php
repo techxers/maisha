@@ -22,16 +22,26 @@ class ForumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if(Auth::user()->role_id==1){
-        $instructors=User::all()->where('role_id',2);
-        $trainees=User::all()->where('role_id',1);
-        $courses=Course::all();
-        $myforums=Forum::where('user_id',Auth::user()->id)->paginate(5);
-        $forums=Forum::paginate(5);
+            $instructors=User::all()->where('role_id',2);
+            $trainees=User::all()->where('role_id',1);
+            $courses=Course::all();
+            $myforums=Forum::where('user_id',Auth::user()->id)->paginate(5);
+            $value=$request->value;
+            if($value==null)
+            {
+                $forums=Forum::paginate(5);
+            }
+            else
+            {
+                $forums=Forum::where('title','LIKE',"%{$value}%")->orWhere('description','LIKE',"%{$value}%")->paginate(5);
+            }
+            
+            
 
-        return view('forums.index',compact('instructors','courses','forums','myforums','trainees'));
+            return view('forums.index',compact('value','instructors','courses','forums','myforums','trainees'));
         }
         else if(Auth::user()->role_id==2)
         {
