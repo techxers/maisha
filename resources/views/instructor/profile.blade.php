@@ -123,6 +123,29 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="avatar"
+                                           class="col-sm-3 col-form-label form-label">Update CV/Certificate</label>
+                                    <div class="col-sm-9">
+                                        <div class="media align-items-center">
+                                            <div class="media-left">
+                                                <div class="icon-block rounded">
+                                                    <i class="material-icons text-muted-light md-36">description</i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="custom-file"
+                                                     style="width: auto;">
+                                                    <input type="file" name="file"
+                                                           id="avatar"
+                                                           class="custom-file-input">
+                                                    <label for="avatar"
+                                                           class="custom-file-label">Choose file</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="password"
                                            class="col-sm-3 col-form-label form-label">Change Password</label>
                                     <div class="col-sm-6 col-md-4">

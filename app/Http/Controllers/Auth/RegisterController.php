@@ -69,9 +69,14 @@ class RegisterController extends Controller
                 'phone'=>['required'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
                 'user_type'=>[''],
-                'qualification'=>['required'],
-                'certificate'=>['required','mimes:pdf'],
+                'qualification'=>['required']
             ]);
+            if($data['certificate']!=null)
+            {
+                return Validator::make($data,[
+                    'certificate'=>['required','mimes:pdf']
+                ]);
+            }
         }
     }
 
@@ -87,9 +92,12 @@ class RegisterController extends Controller
         $status='active';
         if($data['role_id']==2)
         {
-        $status='inactive';
-        $filename=time().'_.'.$data['certificate']->extension();
-        $data['certificate']->move(public_path('certificates'), $filename);
+            $status='inactive';
+            if($data['certificate']!=null)
+            {
+                $filename=time().'_.'.$data['certificate']->extension();
+                $data['certificate']->move(public_path('certificates'), $filename);
+            }
         }
       
         return User::create([

@@ -30,7 +30,13 @@
                              class="rounded-circle"></a>
                     <h1 class="h2 mb-0 mt-1">{{$user->name}}</h1>
                     <p class="lead text-muted mb-0">{{$user->qualification}}</p>
-                   @can('admin') <p><a href="{{route('certificate',$user->id)}}" style="text-decoration: none;"> <i class="material-icons text-black mr-0">arrow_downward</i> Download Cerfificate</a></p>@endcan
+                   @can('admin') 
+                   @if ($user->certificate!=null)
+                    <p>
+                        <a href="{{route('certificate',$user->id)}}" style="text-decoration: none;"> <i class="material-icons text-black mr-0">arrow_downward</i> Download Cerfificate</a>
+                    </p>
+                   @endif
+                    @endcan
                     <div class="badge badge-primary ">{{$user->role_id==0 ?'ADMIN' : 'INSTRUCTOR'}}</div>
                     @can('admin')
                     <hr>

@@ -263,12 +263,22 @@ class DashboardController extends Controller
                 ]);
                 $password=Hash::make($request->password);
             }
+            $filename=Auth::user()->certificate;
+            if($request->has('file'))
+            {
+                $request->validate([
+                    'file'=>['required','mimes:pdf']
+                ]);
+                $filename=time().'_.'.$request->file->extension();
+                $request->file->move(public_path('certificates'), $filename);
+            }
       
         $user=User::findOrFail($id);
         $user->name=$request->name;
         $user->photo=$photoname;
         $user->email=$request->email;
         $user->phone=$request->phone;
+        $user->certificate=$filename;
         $user->password=$password;
         $user->save();
 

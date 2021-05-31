@@ -68,7 +68,7 @@
                                                 </td>
                                             </tr>
                                             @empty
-                                                <p>No courses to show</p>
+                                                <td>No courses to show</td>
                                             @endforelse
                                     </tbody>
                                 </table>
@@ -161,7 +161,7 @@
                                 @endforeach
                                  
                                 @empty
-                                <p class="m-1">No quizzes to show</p>
+                                <li class="list-group-item">No quizzes to show</li>
                                 @endforelse
                             </ul>
                         </div>
