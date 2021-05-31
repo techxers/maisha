@@ -58,7 +58,7 @@ class DashboardController extends Controller
             return view('instructor.dashboard',compact('courses','ins_courses','enrolled','forums'));
         }
         else if($user->role_id==1){
-            $courses=Course::where('status','active')->paginate(10);
+            $courses=Course::where('status','active')->paginate(8);
             $quizzes=Quiz::all()->where('status','approved');
             return view('dashboard.courses',compact('quizzes','courses','categories','subcategories','search'));
         }

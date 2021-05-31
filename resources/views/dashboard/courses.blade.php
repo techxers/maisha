@@ -78,10 +78,8 @@
                                  @if ($quizzes->where('course_id',$course->id)->count()>0)
                                  <button  class="btn btn-white btn-sm float-right" title="This course has a quiz"> <i class="material-icons btn__icon--right">help</i> </button></h5>
                                  @endif
-                                     
-                                
+                                      
                             </div>
-
                         </div>
                     </div>
                     @endforeach

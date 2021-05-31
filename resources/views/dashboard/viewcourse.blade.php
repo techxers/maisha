@@ -202,13 +202,13 @@
                                             <li class="list-group-item {{$video->id==$play_id ?'active':''}}">
                                                 <div class="media ">
                                                     <div class="media-left">
-                                                        <div class="text-muted">{{$i++}}</div>
+                                                        <div class="text-black">{{$i++}}</div>
                                                     </div>
                                                     <div class="media-body">
                                                         <a class=" {{$video->id==$play_id ?'text-white':($views->where('user_id',Auth::user()->id)->where('video_id',$video->id)->count()==0 ?'text-muted-light':'')}}" href="/viewcourse/{{$course->id}}?play_id={{$video->id}}">{{$video->title}}</a>
                                                     </div>
                                                     <div class="media-right">
-                                                        <small class="text-muted-light">{{$views->where('video_id',$video->id)->count()}} Views</small>
+                                                        <small class="text-black">{{$views->where('video_id',$video->id)->count()}} Views</small>
                                                     </div>
                                                 </div>
                                             </li>
@@ -254,7 +254,7 @@
                                             <div class="card-header">
                                                 <div class="media align-items-center">
                                                     <div class="media-left">
-                                                        <img src="{{$course->user->photo==null ? asset('Images/default.jpg') : asset('Images/'.$course->user->photo)}}"
+                                                        <img src="{{$course->user->photo==null ? asset('Images/default.png') : asset('Images/'.$course->user->photo)}}"
                                                              alt="About Adrian"
                                                              width="50"
                                                              class="rounded-circle">

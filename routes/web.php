@@ -56,7 +56,7 @@ Route::get('/instructor', function () {
 //Verify email
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect('/home');
+    return redirect('/user');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::get('/email/verify', function () {
