@@ -15,24 +15,24 @@
     }
     /* Change all text and icon colors in the player. */
 .video-js {
-  color: blue;
+  color: rgb(255,63,36);
 }
 .vjs-poster
 {
-    background-color: blue;
+    background-color: aliceblue;
     width: 100%;
 }
 
 /* Change the border of the big play button. */
 .vjs-big-play-button {
-  border-color: blue;
+  border-color: rgb(255,63,36);
 }
 
 /* Change the color of various "bars". */
 .vjs-volume-level,
 .vjs-play-progress,
 .vjs-slider-bar {
-  background:blue;
+  background:rgb(255,63,36);
 }
 </style>
 @section('content')
