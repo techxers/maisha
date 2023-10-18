@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <title>Maisha Homecare</title>
+    <title>Living Goods</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{asset('test/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{asset('test/assets/css/templatemo-space-dynamic.css')}}">
     <link rel="stylesheet" href="{{asset('test/assets/css/animated.css')}}">
     <link rel="stylesheet" href="{{asset('test/assets/css/owl.css')}}">
-    <link rel="icon" type="image/png" href="{{asset('assets/images/logo/maisha1.png')}}">
+    <link rel="icon" type="image/png" href="{{asset('assets/images/logo/lg.jpg')}}">
 <!--
     
 TemplateMo 562 Space Dynamic
@@ -52,8 +52,8 @@ https://templatemo.com/tm-562-space-dynamic
         <div class="col-12">
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo">
-              <a href="/"><img src="{{asset('assets/images/logo/maisha1.png')}}" style="width:10%;border-radius:70%;" ></a> 
+            <a href="/" class="logo">
+              <a href="/"><img src="{{asset('assets/images/logo/lg.jpg')}}" style="width:10%;margin-top:1%" ></a> 
             </a>
            
             <!-- ***** Logo End ***** -->
@@ -88,9 +88,9 @@ https://templatemo.com/tm-562-space-dynamic
         <div class="container">
           <div class="row">
             <div class="col-lg-12 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.25s">
-              <p>© Copyright 2021 Maisha Homecare. All Rights Reserved. 
+              <p>© Copyright {{now()->year}} Living Goods. All Rights Reserved. 
               
-              <br>Design: <a rel="nofollow" href="/">Maisha Homecare</a></p>
+              <br>Design: <a rel="nofollow" href="/"></a></p>
             </div>
           </div>
         </div>

@@ -44,7 +44,7 @@
         <link type="text/css"
               href="{{asset('dashboard/assets/css/app.css')}}"
               rel="stylesheet">
-              <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/logo/maisha1.png')}}">
+              <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/logo/lg.png')}}">
     </head>
 
     <body class=" fixed-layout">
@@ -88,7 +88,7 @@
                             <!-- Brand -->
                             <a href="{{route('dashboard')}}"
                                class="navbar-brand">
-                               <img width="8%" style="border-radius: 50%;margin:0.5%;" src="{{asset('assets/images/logo/maisha1.png')}}"
+                               <img width="8%" style="border-radius: 50%;margin:0.5%;" src="{{asset('assets/images/logo/lg.png')}}"
                                class="mr-2"
                                alt="Hello" />
                                 

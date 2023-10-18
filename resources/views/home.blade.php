@@ -11,9 +11,9 @@
           <div class="row">
             <div class="col-lg-6 align-self-center">
               <div class="left-content header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
-                <h6>Welcome to Maisha Homecare</h6>
-                <h2>We Provide <em>Professional</em> &amp; <span>Homecare</span> Training</h2>
-                <p>Africa’s first 100% online domestic training platform.</p>
+                <h6>Welcome to Living Goods</h6>
+                <h2>We Provide <em>Community</em> &amp; <span>Health Workers</span> Training</h2>
+                <p>Africa’s first 100% online health workers training platform.</p>
                 <form id="search" action="#" method="GET">
                   <fieldset>
                     <input type="address" name="address" class="email" placeholder="How it works..." autocomplete="on" required>
@@ -26,7 +26,7 @@
             </div>
             <div class="col-lg-6">
               <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
-                <img style="border-radius:20%;" src="{{asset('assets/images/bg/unnamed.jpg')}}" alt="team meeting">
+                <img style="border-radius:20%;" src="{{asset('assets/images/logo/image.jpg')}}" alt="team meeting">
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@
                   </div>
                   <div class="right-text">
                     <h4>Why Choose Us</h4>
-                    <p>Maisha Homecare focuses on achieving and maintaining the highest standards and cleanliness within home environment.</p>
+                    <p>Living Good focuses on achieving and maintaining the highest standards and cleanliness within home environment.</p>
                   </div>
                 </div>
               </div>
@@ -107,7 +107,7 @@
         </div>
         <div class="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
           <div class="section-heading">
-            <h2>Grow your housekeeping <em>skills</em> and &amp; <span>Knowledge</span> With Us</h2>
+            <h2>Grow your healthcare <em>skills</em> and &amp; <span>Knowledge</span> With Us</h2>
             <p>We train on child safety, food handling, food storing, bathroom-making techniques (pottie cleaning), keeping all toys hygienic and nursery (Child Care).</p>
           </div>
           <div class="row">
@@ -232,8 +232,8 @@
                   <li><i class="fa fa-users"></i> Maisha</li>
                   <li><i class="fa fa-folder"></i>Homecare</li>
                 </ul>
-                <a href="#"><h4>Maisha &amp; Homecare Hub</h4></a>
-                <p>Maisha Homecare Hub is a hospitality training facility committed to empowering home support workers to deliver value for their clients (home owners)....</p>
+                <a href="#"><h4>Living &amp; Goods Hub</h4></a>
+                <p>Living Goods Hub is a hospitality training facility committed to empowering home support workers to deliver value for their clients (home owners)....</p>
                 <div class="main-blue-button">
                   <a href="#">Learn More</a>
                 </div>
